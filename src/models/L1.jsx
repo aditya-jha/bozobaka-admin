@@ -14,10 +14,6 @@ export default class L1 {
     }
 
     static parseL1s(items = []) {
-        let l1s = [];
-        for(let i=0; i<items.length; i++) {
-            l1s.push(new L1(items[i]));
-        }
-        return l1s;
+        return items.map(item => new L1(item));
     }
 }

@@ -35,6 +35,13 @@ export default class AddTheoryComponent extends React.Component {
         super(props);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.requestSuccess && nextProps.requestSuccess) {
+            // resetVariables();
+            // this.props.resetState();
+        }
+    }
+
     componentDidMount() {
         const {id} = this.props.location.query;
         if (id) {
@@ -55,7 +62,7 @@ export default class AddTheoryComponent extends React.Component {
 
         const {
             updateHeading, theory, updateTheory, l1Id, l2Id, l3Id, l4Id, sectionId, status, parsedTheory, heading,
-            resetState, postTheory, hasErrored, errorMessage, isLoading, id, sourceId, resetErrorState
+            resetState, postTheory, hasErrored, errorMessage, isLoading, id, sourceId, resetErrorState, requestSuccess
         } = this.props;
 
         return (
@@ -160,6 +167,8 @@ export default class AddTheoryComponent extends React.Component {
                 <br/><br/><br/>
                 <Snackbar open={hasErrored} message={errorMessage} autoHideDuration={200000} action="ok"
                           onActionTouchTap={resetErrorState.bind(this)}/>
+                <Snackbar open={requestSuccess} message="done" autoHideDuration={200000} action="ok"
+                          onActionTouchTap={resetState.bind(this)}/>
             </div>
         );
     }
@@ -190,5 +199,6 @@ AddTheoryComponent.propTypes = {
     heading: PropTypes.string,
     fetchTheory: PropTypes.func,
     hasAccess: PropTypes.bool,
-    resetErrorState: PropTypes.func
+    resetErrorState: PropTypes.func,
+    requestSuccess: PropTypes.bool
 };
