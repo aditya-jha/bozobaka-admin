@@ -151,6 +151,11 @@ export default class AddTheoryComponent extends React.Component {
                 </Row>
                 <br/><br/>
                 <Row>
+                    <Col xs={12}>
+                        {isLoading ? <CircularProgress size={32}/> : null}
+                    </Col>
+                </Row>
+                <Row>
                     <Col sm={3}>
                         <FlatButton disabled={isLoading} secondary={true} label="Discard"
                                     onClick={resetState.bind(this)}/>

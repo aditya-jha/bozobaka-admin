@@ -2,7 +2,7 @@
 
 import {connect} from "react-redux";
 import ListTheoryComponent from "./../components/ListTheoryComponent";
-import {theoryFetchTheory} from "./../actions/TheoryActions";
+import {theoryFetchTheory, theoryResetState} from "./../actions/TheoryActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -20,6 +20,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onFilterChange: () => {
             dispatch(theoryFetchTheory());
+        },
+
+        resetState: () => {
+            dispatch(theoryResetState());
         }
     };
 };

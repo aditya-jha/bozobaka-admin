@@ -44,6 +44,10 @@ export default class ListTheoryComponent extends React.Component {
         this.props.fetchTheories();
     }
 
+    componentWillUnmount() {
+        this.props.resetState();
+    }
+
     render() {
         const {theories, isLoading, fetchTheories} = this.props;
         return (
@@ -77,5 +81,6 @@ ListTheoryComponent.propTypes = {
     theories: PropTypes.array.isRequired,
     fetchTheories: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    courseId: PropTypes.string.isRequired
+    courseId: PropTypes.string.isRequired,
+    resetState: PropTypes.func.isRequired
 };

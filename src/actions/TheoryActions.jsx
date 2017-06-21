@@ -161,7 +161,7 @@ export function theoryFetchTheory(id) {
                 dispatch(theoryUpdateSource(res.sourceId));
             }
             dispatch(theoryIsLoading(false));
-            dispatch(theoryRequestSuccess(true));
+            //dispatch(theoryRequestSuccess(true));
         }).catch((err) => {
             dispatch(theoryIsLoading(false));
             dispatch(theoryRequestSuccess(false));
