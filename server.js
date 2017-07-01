@@ -1,11 +1,11 @@
 "use strict";
 
-import http from "http";
-import express from "express";
-import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-import path from "path";
-import config from "./config";
+const http = require("http");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const path = require("path");
+const config = require("./config");
 
 // create our app
 const app = express();

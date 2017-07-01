@@ -9,7 +9,7 @@
     "devBuild": "webpack -w --display-error-details",
     "productionBuild": "webpack -p --config webpack.config.production.js",
     "serve": "node --harmony server.js",
-    "serveDev": "babel-node server.js",
+    "serveDev": "node --harmony server.js",
     "lint": "eslint src",
     "prestart": "npm run productionBuild",
     "start": "export NODE_ENV=production || set NODE_ENV=production && npm run serve"
@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "babel-eslint": "^7.1.1",
+    "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.6",
     "eslint": "^3.15.0",
