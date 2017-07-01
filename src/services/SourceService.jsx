@@ -12,7 +12,7 @@ export function getSources() {
         }).then((response) => {
             resolve(Source.parseSources(response.data));
         }).catch((err) => errorHandler(reject, err));
-    })
+    });
 }
 
 export function postSource(name) {
@@ -26,5 +26,5 @@ export function postSource(name) {
         }).then((response) => {
             resolve(new Source(response.data));
         }).catch((err) => errorHandler(reject, err));
-    })
+    });
 }

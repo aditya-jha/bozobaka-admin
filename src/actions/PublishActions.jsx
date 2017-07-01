@@ -167,7 +167,7 @@ export function updateRank(item, rank) {
             id: item.id,
             currentRank: rank,
             type: item.question ? "question" : "theory"
-        }).then((res) => {
+        }).then(res => {
             dispatch(fetchPublished());
         }).catch((err) => {
             dispatch(publishIsLoading(false));
