@@ -15,6 +15,7 @@ import {QuestionReducer} from "./QuestionReducer";
 import {FilterReducer} from "./FiltersReducer";
 import {ExamReducer} from "./ExamReducer";
 import {PublishReducer} from "./PublishReducer";
+import {ModulesReducer} from "./ModulesReducer";
 
 export default combineReducers({
     GlobalReducer,
@@ -25,5 +26,6 @@ export default combineReducers({
     question: QuestionReducer,
     filters: FilterReducer,
     exam: ExamReducer,
-    publish: PublishReducer
+    publish: PublishReducer,
+    modules: ModulesReducer
 });

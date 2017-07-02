@@ -2,13 +2,10 @@
 
 import React, {PropTypes} from "react";
 import {Row, Col} from "react-flexbox-grid";
-import ListTableComponent from "./ListTableComponent";
 import Urls from "./../models/Urls";
 import {browserHistory} from "react-router";
-import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
-import TextField from "material-ui/TextField";
 import CircularProgress from "material-ui/CircularProgress";
 import PublishPopup from "./PublishingPopupComponent";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
@@ -16,30 +13,9 @@ import NoAccessErrorComponent from "./NoAccessErrorComponent";
 export default class PublishComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.headerColumns = [{
-            displayName: "Question/Theory",
-            key: "qt"
-        }, {
-            displayName: "Type",
-            key: "contentType"
-        }, {
-            displayName: "Section",
-            key: "sectionId"
-        }, {
-            displayName: "L1",
-            key: "l1Id"
-        }, {
-            displayName: "L2",
-            key: "l2Id"
-        }, {
-            displayName: "Sort",
-            key: "rank"
-        }, {
-            displayName: "Action",
-            key: "action",
-            actionLabel: "Add below"
-        }];
-        this.selectedItem = {};
+        this.state = {
+            addModulePopup: false
+        };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -62,6 +38,7 @@ export default class PublishComponent extends React.Component {
 
     render() {
         const {published, fetchPublished, sortDialog, sortDialogStatus, isLoading, publishDialog, userRole} = this.props;
+        const {addModulePopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
             return <NoAccessErrorComponent/>;
@@ -92,7 +69,7 @@ export default class PublishComponent extends React.Component {
                 <br/>
                 <Row>
                     <Col xs={10}>
-                        <h1 style={styles.pageTitle}>Publish</h1>
+                        <h1 style={styles.pageTitle}>Publish (Module)</h1>
                     </Col>
                     <Col xs={2}>
                         {isLoading ? <CircularProgress size={32}/> : null}
@@ -101,33 +78,24 @@ export default class PublishComponent extends React.Component {
                 </Row>
                 <Row>
                     <Col xs={12}>
-                        <ListTableComponent headerColumns={this.headerColumns} tableRows={published} usage="publish"
-                                            isLoading={isLoading} onFilterChange={fetchPublished.bind(this)}
-                                            onCellClick={this.onCellClick.bind(this)}/>
+                        <RaisedButton label="Add Module" onClick={this.toggleAddModulePopup.bind(this)} />
                     </Col>
                 </Row>
                 <br/><br/>
-                <Dialog open={sortDialog} actions={actions} modal={false} title="Change Sorting #">
-                    <Row>
-                        <Col xs={4}>
-                            <p>From</p>
-                            <br/><br/>
-                            {this.selectedItem.rank}
-                        </Col>
-                        <Col xs={8}>
-                            <p>To</p>
-                            <TextField ref="newRankValue" type="number" floatingLabelText="Rank"/>
-                        </Col>
-                        <br/>
-                    </Row>
-                </Dialog>
                 {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
+                {addModulePopup ? null : null}
             </div>
         );
     }
 
     componentWillUnmount() {
         this.props.clearData();
+    }
+
+    toggleAddModulePopup() {
+        this.setState({
+            addModulePopup: !this.state.addModulePopup
+        });
     }
 
     onCellClick(rowNumber, columnsId) {

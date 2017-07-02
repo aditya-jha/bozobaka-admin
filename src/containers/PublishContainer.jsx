@@ -9,9 +9,12 @@ import {
     updateRank,
     unpublish,
     resetState,
-    fetchPublished,
     publishPublishDialogStatus
 } from "./../actions/PublishActions";
+import {
+    fetchModules
+} from "./../actions/ModuleActions";
+
 
 const mapStateToProps = (state) => {
     return {
@@ -28,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         fetchPublished: () => {
-            dispatch(fetchPublished());
+            dispatch(fetchModules());
         },
 
         updateStatusFilter: (status) => {

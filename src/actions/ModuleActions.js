@@ -1,0 +1,52 @@
+/**
+ * Created by aditya on 1/7/17.
+ */
+
+"use strict";
+
+import {makeRequest} from "./../services/APIService";
+import {fetchModules as fetchModulesRequest} from "./../services/PublishService";
+
+import {
+    MODULES_HAS_ERRORED,
+    MODULES_IS_LOADING,
+    INIT_MODULES
+} from "./ActionConstants";
+
+export function moduleHasErrored(hasErrored, errorMessage) {
+    return {
+        type: MODULES_HAS_ERRORED,
+        hasErrored: hasErrored,
+        errorMessage: errorMessage
+    };
+}
+
+export function moduleIsLoading(isLoading) {
+    return {
+        type: MODULES_IS_LOADING,
+        isLoading
+    };
+}
+
+export function initModules(modules) {
+    return {
+        type: INIT_MODULES,
+        modules
+    };
+}
+
+export function fetchModules(moduleId) {
+    return (dispatch) => {
+        dispatch(moduleIsLoading(true));
+
+        fetchModulesRequest(moduleId)
+            .then(res => {
+                dispatch(moduleIsLoading(false));
+                dispatch(initModules(res));
+            })
+            .catch(err => {
+                dispatch(moduleIsLoading(false));
+                dispatch(moduleHasErrored(true, err.message));
+            });
+    };
+}
