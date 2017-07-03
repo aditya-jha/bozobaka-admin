@@ -183,6 +183,11 @@ export default class AddQuestionComponent extends React.Component {
                 <br/><br/>
                 <ExamsAppearedComponent/>
                 <br/><br/>
+
+                <Row>
+                    <Col xs={12}>Status: <b>{status}</b></Col>
+                </Row>
+                <br/><br/>
                 <Row>
                     <Col sm={3}>
                         <FlatButton disabled={isLoading || !id} secondary={true} label="Discard"
