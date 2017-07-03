@@ -66,18 +66,18 @@ export default class PublishComponent extends React.Component {
 
                 <Row>
                     <Col xs={12}>
-                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={modules}/>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col xs={12}>
                         <br/>
                         <RaisedButton primary={true} label="Add Module" onClick={this.toggleAddModulePopup.bind(this)}/>
                     </Col>
                 </Row>
 
                 <br/><br/>
+
+                <Row>
+                    <Col xs={12}>
+                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={modules}/>
+                    </Col>
+                </Row>
 
                 {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
                 {addModulePopup ?

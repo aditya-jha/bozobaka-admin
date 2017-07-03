@@ -46,3 +46,9 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.sortableListItem {
+    list-style: none;
+    padding: 1em;
+    border: 1px dashed black;
+}

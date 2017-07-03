@@ -8,7 +8,7 @@ import React, {PropTypes} from "react";
 import {SortableContainer, SortableElement, arrayMove} from "react-sortable-hoc";
 
 const SortableItem = SortableElement(({value}) =>
-    <li>{value}</li>
+    <li className="sortableListItem">{value}</li>
 );
 
 const SortableList = SortableContainer(({items}) => {
