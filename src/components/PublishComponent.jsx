@@ -7,7 +7,7 @@ import CircularProgress from "material-ui/CircularProgress";
 import PublishPopup from "./PublishingPopupComponent";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import AddModulePopup from "./AddModulePopup";
-import L1 from "./../models/L1";
+import SortableComponent from "./SortableComponent";
 
 export default class PublishComponent extends React.Component {
     constructor(props) {
@@ -37,7 +37,7 @@ export default class PublishComponent extends React.Component {
     }
 
     render() {
-        const {sections, l1s, isLoading, publishDialog, userRole, newModule} = this.props;
+        const {sections, l1s, isLoading, publishDialog, userRole, newModule, modules} = this.props;
         const {addModulePopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
@@ -60,23 +60,29 @@ export default class PublishComponent extends React.Component {
                     <Col xs={2}>
                         {isLoading ? <CircularProgress size={32}/> : null}
                     </Col>
-                    <br/><br/>
                 </Row>
+
+                <br/><br/>
+
+                <Row>
+                    <Col xs={12}>
+                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={modules}/>
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col xs={12}>
                         <br/>
-                        <RaisedButton primary={true} label="Add Module" onClick={this.toggleAddModulePopup.bind(this)} />
+                        <RaisedButton primary={true} label="Add Module" onClick={this.toggleAddModulePopup.bind(this)}/>
                     </Col>
                 </Row>
+
                 <br/><br/>
+
                 {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
-                {addModulePopup ? <AddModulePopup
-                                        showDialog={addModulePopup}
-                                        onDialogClose={this.handleDialogClose.bind(this)}
-                                        module={newModule}
-                                        sections={sections}
-                                        l1s={l1s}
-                                        /> : null}
+                {addModulePopup ?
+                    <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
+                                    module={newModule} sections={sections} l1s={l1s}/> : null}
             </div>
         );
     }
@@ -104,6 +110,10 @@ export default class PublishComponent extends React.Component {
         });
     }
 
+    onSortEnd(updatedOrder) {
+        console.log(updatedOrder);
+    }
+
     unpublish() {
         this.props.unpublish(this.selectedItem);
         this.props.sortDialogStatus(null, false);
@@ -127,5 +137,6 @@ PublishComponent.propTypes = {
     userRole: PropTypes.string,
     newModule: PropTypes.object,
     l1s: PropTypes.array,
-    fetchSections: PropTypes.func
+    fetchSections: PropTypes.func,
+    modules: PropTypes.array
 };
