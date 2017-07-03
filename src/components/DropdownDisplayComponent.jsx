@@ -8,9 +8,8 @@ const DropDownDisplayComponent = ({menuItems, value, onChange, disabled, width, 
     const style = {
         width: width ? width : 300
     };
-    value = value ? value : "";
     return (
-        <DropDownMenu value={value} onChange={onChange.bind(this)} disabled={disabled} style={style} autoWidth={true}>
+        <DropDownMenu value={value || ""} onChange={onChange.bind(this)} disabled={disabled} style={style} autoWidth={true}>
             {!hideDefault ? <MenuItem value="" primaryText="Select"/> : null}
             {menuItems.map((item, index) => {
                 if (typeof item === "object") {

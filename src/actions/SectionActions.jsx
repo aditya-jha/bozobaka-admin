@@ -1,7 +1,7 @@
 "use strict";
 
 import ContentService from "./../services/ContentService";
-import {INIT_SECTIONS, DELETE_SECTIONS, INIT_L1S, INIT_L2S, INIT_L3S, INIT_L4S} from "./ActionConstants";
+import {INIT_SECTIONS, DELETE_SECTIONS} from "./ActionConstants";
 
 export function initSections(content) {
     return {

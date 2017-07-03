@@ -9,13 +9,18 @@ import {
     MODULES_IS_LOADING,
     INIT_MODULES
 } from "./../actions/ActionConstants";
+import Module from "./../models/Module";
+
+const defaultNewModule = new Module({}).toJSON();
 
 const defaultState = {
     modules: [],
+    newModule: defaultNewModule,
     isLoading: false,
     hasErrored: false,
     errorMessage: ""
 };
+
 
 export function ModulesReducer(state = defaultState, action) {
     switch (action.type) {

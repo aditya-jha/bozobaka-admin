@@ -10,7 +10,7 @@ import ContentService from "./../services/ContentService";
 import CircularProgress from "material-ui/CircularProgress";
 import Snackbar from "material-ui/Snackbar";
 import DropDownMenu from "material-ui/DropDownMenu";
-import MenuItem from 'material-ui/MenuItem';
+import MenuItem from "material-ui/MenuItem";
 
 export default class EditL1Component extends React.Component {
     constructor(props) {

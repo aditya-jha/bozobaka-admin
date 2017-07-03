@@ -14,13 +14,14 @@ import {
 import {
     fetchModules
 } from "./../actions/ModuleActions";
-
+import {getSections} from "./../actions/SectionActions";
 
 const mapStateToProps = (state) => {
     return {
-        ...state.publish,
+        ...state.modules,
         courseId: state.ContentReducer.selectedCourse.id,
-        userRole: state.GlobalReducer.loggedInUser.role
+        userRole: state.GlobalReducer.loggedInUser.role,
+        ...state.sections
     };
 };
 
@@ -56,6 +57,10 @@ const mapDispatchToProps = (dispatch) => {
 
         publishDialogStatus: (status) => {
             dispatch(publishPublishDialogStatus(status || false));
+        },
+
+        fetchSections: (courseId) => {
+            dispatch(getSections({courseId: courseId}));
         }
     };
 };

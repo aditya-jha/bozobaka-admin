@@ -4,7 +4,6 @@
 
 "use strict";
 
-import {makeRequest} from "./../services/APIService";
 import {fetchModules as fetchModulesRequest} from "./../services/PublishService";
 
 import {

@@ -2,13 +2,12 @@
 
 import React, {PropTypes} from "react";
 import {Row, Col} from "react-flexbox-grid";
-import Urls from "./../models/Urls";
-import {browserHistory} from "react-router";
-import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import CircularProgress from "material-ui/CircularProgress";
 import PublishPopup from "./PublishingPopupComponent";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
+import AddModulePopup from "./AddModulePopup";
+import L1 from "./../models/L1";
 
 export default class PublishComponent extends React.Component {
     constructor(props) {
@@ -34,10 +33,11 @@ export default class PublishComponent extends React.Component {
 
     componentDidMount() {
         this.props.fetchPublished();
+        this.props.fetchSections(this.props.courseId);
     }
 
     render() {
-        const {published, fetchPublished, sortDialog, sortDialogStatus, isLoading, publishDialog, userRole} = this.props;
+        const {sections, l1s, isLoading, publishDialog, userRole, newModule} = this.props;
         const {addModulePopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
@@ -49,20 +49,6 @@ export default class PublishComponent extends React.Component {
                 fontWeight: 400
             }
         };
-
-        const actions = (
-            <Row>
-                <Col xs={6} sm={3}>
-                    <FlatButton secondary={true} label="Unpublish" onClick={this.unpublish.bind(this)}/>
-                </Col>
-                <Col xs={6} sm={6}>
-                    <FlatButton label="Cancel" onClick={sortDialogStatus.bind(this, false)}/>
-                </Col>
-                <Col xs={6} sm={3}>
-                    <RaisedButton primary={true} label="Update" onClick={this.updateSort.bind(this)}/>
-                </Col>
-            </Row>
-        );
 
         return (
             <div>
@@ -78,12 +64,19 @@ export default class PublishComponent extends React.Component {
                 </Row>
                 <Row>
                     <Col xs={12}>
-                        <RaisedButton label="Add Module" onClick={this.toggleAddModulePopup.bind(this)} />
+                        <br/>
+                        <RaisedButton primary={true} label="Add Module" onClick={this.toggleAddModulePopup.bind(this)} />
                     </Col>
                 </Row>
                 <br/><br/>
                 {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
-                {addModulePopup ? null : null}
+                {addModulePopup ? <AddModulePopup
+                                        showDialog={addModulePopup}
+                                        onDialogClose={this.handleDialogClose.bind(this)}
+                                        module={newModule}
+                                        sections={sections}
+                                        l1s={l1s}
+                                        /> : null}
             </div>
         );
     }
@@ -94,35 +87,21 @@ export default class PublishComponent extends React.Component {
 
     toggleAddModulePopup() {
         this.setState({
-            addModulePopup: !this.state.addModulePopup
+            addModulePopup: !this.state.addModulePopup,
+            newModule: true
         });
     }
 
-    onCellClick(rowNumber, columnsId) {
-        const index = rowNumber - 1;
-        const {published, sortDialogStatus, publishDialogStatus} = this.props;
-        this.selectedItem = published[index];
-        
-        if (columnsId === 7) {
-            // add below
-            publishDialogStatus(true);
-        } else if (columnsId === 6) {
-            // change sort
-            sortDialogStatus(true);
-        } else {
-            const url = this.selectedItem.question ? Urls.ADD_QUESTION : Urls.ADD_THEORY;
-            browserHistory.push(url + "?id=" + this.selectedItem.id);
-        }
-    }
-
-    updateSort() {
-        try {
-            const rank = parseInt(this.refs.newRankValue.input.value, 10);
-            this.props.updateSort(this.selectedItem, rank);
-            this.props.sortDialogStatus(null, false);
-        } catch (error) {
-            console.log(error);
-        }
+    handleDialogClose(update = false) {
+        this.setState((prevState, props) => {
+            if (prevState.addModulePopup) {
+                if (update) {
+                    this.props.fetchPublished();
+                }
+                return {addModulePopup: false, newModule: false};
+            }
+            return prevState;
+        });
     }
 
     unpublish() {
@@ -132,7 +111,7 @@ export default class PublishComponent extends React.Component {
 }
 
 PublishComponent.propTypes = {
-    published: PropTypes.array,
+    sections: PropTypes.array,
     fetchPublished: PropTypes.func,
     isLoading: PropTypes.bool,
     courseId: PropTypes.string,
@@ -145,5 +124,8 @@ PublishComponent.propTypes = {
     clearData: PropTypes.func,
     publishDialog: PropTypes.bool,
     publishDialogStatus: PropTypes.func,
-    userRole: PropTypes.string
+    userRole: PropTypes.string,
+    newModule: PropTypes.object,
+    l1s: PropTypes.array,
+    fetchSections: PropTypes.func
 };
