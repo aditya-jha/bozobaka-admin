@@ -202,8 +202,8 @@ export default class AddQuestionComponent extends React.Component {
                             <RaisedButton disabled={isLoading} primary={true} label="ACCEPT"
                                           onClick={postQuestion.bind(this, "accept")}/>
                             :
-                            <RaisedButton disabled={isLoading} primary={true} label="SAVE"
-                                          onClick={postQuestion.bind(this, "")}/>
+                            <RaisedButton disabled={isLoading} primary={true} label="ADD"
+                                          onClick={postQuestion.bind(this, "added")}/>
                         }
                     </Col>
                 </Row>
