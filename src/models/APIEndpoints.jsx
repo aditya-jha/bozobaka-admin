@@ -50,3 +50,7 @@ export function getL4Endpoint(l3Id, l4Id) {
     return l4Id ? endPoint + "/" + l4Id : endPoint;
 }
 
+export function getModulesEndpoint(courseId, moduleId) {
+    let endPoint = COURSES + "/" + courseId + MODULES;
+    return moduleId ? endPoint + "/" + moduleId : endPoint;
+}

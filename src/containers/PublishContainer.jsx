@@ -31,8 +31,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchData());
         },
 
-        fetchPublished: () => {
-            dispatch(fetchModules());
+        fetchPublished: (courseId) => {
+            dispatch(fetchModules(courseId));
         },
 
         updateStatusFilter: (status) => {

@@ -7,27 +7,28 @@
 import {makeRequest, errorHandler} from "./APIService";
 import Module from "./../models/Module";
 import {
-    MODULES
+    getModulesEndpoint
 } from "./../models/APIEndpoints";
 
-export function fetchModules(moduleId) {
+export function fetchModules(courseId, moduleId) {
     return new Promise((resolve, reject) => {
         makeRequest({
-            url: moduleId ? MODULES + "/" + moduleId : MODULES
+            url: getModulesEndpoint(courseId, moduleId)
         }).then(res => {
             resolve(Module.parseModules(res.data));
         }).catch(err => errorHandler(reject, err));
     });
 }
 
-export function updateModules(module, config) {
+export function updateModules(courseId, module, config) {
     return new Promise((resolve, reject) => {
         makeRequest({
             method: config.method,
-            url: config.method === "post" ? MODULES : MODULES + "/" + module.id,
+            url: getModulesEndpoint(courseId, module.id),
             data: module
-        }).then((res) => {
+        }).then(res => {
             (config.method !== "delete") ? resolve(new Module(res.data)) : resolve(res.data);
-        }).catch((err) => errorHandler(reject, err));
+        }).catch(err => errorHandler(reject, err));
     });
 }
+

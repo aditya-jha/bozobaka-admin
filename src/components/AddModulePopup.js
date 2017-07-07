@@ -112,11 +112,13 @@ export default class AddModulePopup extends React.Component {
 
     deleteButton() {
         const {module} = this.scope;
+        const {courseId} = this.props;
+
         this.setState({
             requestInProgress: true
         });
 
-        return updateModules(module, {
+        return updateModules(courseId, module, {
             method: "DELETE"
         }).then(res => {
             console.log(res);
@@ -140,12 +142,14 @@ export default class AddModulePopup extends React.Component {
 
     saveButton() {
         const {module} = this.scope;
+        const {courseId} = this.props;
 
         if (!module.name) {
             return null;
         }
-
-        return updateModules(module, {
+        module.displayName = module.name;
+        
+        return updateModules(courseId, module, {
             method: module.id ? "PATCH" : "POST"
         }).then(res => {
             console.log(res);
@@ -167,6 +171,8 @@ AddModulePopup.propTypes = {
     module: PropTypes.object.isRequired,
     sections: PropTypes.array.isRequired,
     onDialogClose: PropTypes.func.isRequired,
-    l1s: PropTypes.array.isRequired
+    l1s: PropTypes.array.isRequired,
+    showDialog: PropTypes.bool.isRequired,
+    courseId: PropTypes.string.isRequired
 };
 

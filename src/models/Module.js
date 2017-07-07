@@ -19,7 +19,7 @@ export default class Module {
     }
 
     static parseModules(modules = []) {
-        modules.map(module => new Module(module));
+        return modules.map(module => new Module(module));
     }
 
     toJSON(proto) {

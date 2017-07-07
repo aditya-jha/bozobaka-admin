@@ -34,11 +34,11 @@ export function initModules(modules) {
     };
 }
 
-export function fetchModules(moduleId) {
+export function fetchModules(courseId, moduleId) {
     return (dispatch) => {
         dispatch(moduleIsLoading(true));
 
-        fetchModulesRequest(moduleId)
+        fetchModulesRequest(courseId, moduleId)
             .then(res => {
                 dispatch(moduleIsLoading(false));
                 dispatch(initModules(res));

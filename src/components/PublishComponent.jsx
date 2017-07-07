@@ -23,7 +23,7 @@ export default class PublishComponent extends React.Component {
             fetchPublished();
         }
         if (contentType !== nextProps.contentType) {
-            fetchPublished();
+            fetchPublished(courseId);
         }
     }
 
@@ -32,12 +32,12 @@ export default class PublishComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchPublished();
+        this.props.fetchPublished(this.props.courseId);
         this.props.fetchSections(this.props.courseId);
     }
 
     render() {
-        const {sections, l1s, isLoading, publishDialog, userRole, newModule, modules} = this.props;
+        const {sections, l1s, isLoading, publishDialog, userRole, newModule, modules, courseId} = this.props;
         const {addModulePopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
@@ -82,7 +82,7 @@ export default class PublishComponent extends React.Component {
                 {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
                 {addModulePopup ?
                     <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
-                                    module={newModule} sections={sections} l1s={l1s}/> : null}
+                                    module={newModule} sections={sections} l1s={l1s} courseId={courseId} /> : null}
             </div>
         );
     }
@@ -102,7 +102,7 @@ export default class PublishComponent extends React.Component {
         this.setState((prevState, props) => {
             if (prevState.addModulePopup) {
                 if (update) {
-                    this.props.fetchPublished();
+                    props.fetchPublished(props.courseId);
                 }
                 return {addModulePopup: false, newModule: false};
             }
