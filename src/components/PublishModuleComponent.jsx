@@ -26,7 +26,8 @@ class PublishModuleComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            addModulePopup: false
+            addModulePopup: false,
+            addLinkPopup: false
         };
     }
 
@@ -48,7 +49,7 @@ class PublishModuleComponent extends React.Component {
 
     render() {
         const {links, modules, isLoading, newLink, userRole, selectedModule, sections, l1s, courseId} = this.props;
-        const {addModulePopup} = this.state;
+        const {addModulePopup, addLinkPopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
             return <NoAccessErrorComponent/>;
@@ -72,12 +73,19 @@ class PublishModuleComponent extends React.Component {
                     </Col>
                 </Row>
 
+                <Row>
+                    <Col xs={12}>
+                        {selectedModule.name}
+                        <span onClick={this.toggleAddModulePopup.bind(this)}>edit</span>
+                    </Col>
+                </Row>
+
                 <br/><br/>
 
                 <Row>
                     <Col xs={12}>
                         <br/>
-                        <RaisedButton primary={true} label="Add Link" onClick={this.toggleAddModulePopup.bind(this)}/>
+                        <RaisedButton primary={true} label="Add Link" onClick={this.toggleAddLinkPopup.bind(this)}/>
                     </Col>
                 </Row>
 
@@ -91,7 +99,9 @@ class PublishModuleComponent extends React.Component {
 
                 {addModulePopup ?
                     <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
-                                    module={selectedModule} sections={sections} l1s={l1s} courseId={courseId} /> : null}
+                                    module={selectedModule} sections={sections} l1s={l1s} courseId={courseId}/> : null}
+                {addLinkPopup ?
+                    }
             </div>
         );
     }
@@ -99,6 +109,12 @@ class PublishModuleComponent extends React.Component {
     toggleAddModulePopup() {
         this.setState({
             addModulePopup: !this.state.addModulePopup
+        });
+    }
+
+    toggleAddLinkPopup() {
+        this.setState({
+            addLinkPopup: !this.state.addLinkPopup
         });
     }
 

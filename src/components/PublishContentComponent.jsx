@@ -26,7 +26,8 @@ class PublishContentComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            addContentPopup: false
+            addContentPopup: false,
+            addLinkPopup: false
         };
     }
 
@@ -47,7 +48,7 @@ class PublishContentComponent extends React.Component {
     }
 
     render() {
-        const {links, contents, isLoading, userRole, selectedLink, courseId} = this.props;
+        const {isLoading, userRole, selectedLink, courseId} = this.props;
         const {addContentPopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
@@ -72,12 +73,10 @@ class PublishContentComponent extends React.Component {
                     </Col>
                 </Row>
 
-                <br/><br/>
-
                 <Row>
                     <Col xs={12}>
-                        <br/>
-                        <RaisedButton primary={true} label="Add Content" onClick={this.toggleAddContentPopup.bind(this)}/>
+                        {selectedLink.name}
+                        <span onClick={this.toggleAddLinkPopup.bind(this)}>edit</span>
                     </Col>
                 </Row>
 
@@ -85,7 +84,17 @@ class PublishContentComponent extends React.Component {
 
                 <Row>
                     <Col xs={12}>
-                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={contents}/>
+                        <br/>
+                        <RaisedButton primary={true} label="Add Content"
+                                      onClick={this.toggleAddContentPopup.bind(this)}/>
+                    </Col>
+                </Row>
+
+                <br/><br/>
+
+                <Row>
+                    <Col xs={12}>
+                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={selectedLink.contents}/>
                     </Col>
                 </Row>
 
@@ -97,6 +106,12 @@ class PublishContentComponent extends React.Component {
     toggleAddContentPopup() {
         this.setState({
             addContentPopup: !this.state.addContentPopup
+        });
+    }
+
+    toggleAddLinkPopup() {
+        this.setState({
+            addLinkPopup: !this.state.addLinkPopup
         });
     }
 
@@ -119,13 +134,9 @@ class PublishContentComponent extends React.Component {
 
 PublishContentComponent.propTypes = {
     links: PropTypes.array,
-    contents: PropTypes.array,
     isLoading: PropTypes.bool,
     userRole: PropTypes.string,
-    newLink: PropTypes.object,
-    selectedModule: PropTypes.object,
-    sections: PropTypes.array,
-    l1s: PropTypes.array,
+    selectedLink: PropTypes.object,
     courseId: PropTypes.string,
     fetchSections: PropTypes.func,
     fetchPublished: PropTypes.func,
