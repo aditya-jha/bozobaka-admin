@@ -18,12 +18,9 @@ export default class PublishComponent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {courseId, fetchPublished, contentType} = this.props;
+        const {courseId, fetchPublished} = this.props;
         if (courseId !== nextProps.courseId) {
             fetchPublished();
-        }
-        if (contentType !== nextProps.contentType) {
-            fetchPublished(courseId);
         }
     }
 
@@ -75,20 +72,26 @@ export default class PublishComponent extends React.Component {
 
                 <Row>
                     <Col xs={12}>
-                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={modules}/>
+                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={modules}
+                                           onClickCallback={this.onSortableItemClick}/>
                     </Col>
                 </Row>
 
                 {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
                 {addModulePopup ?
                     <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
-                                    module={newModule} sections={sections} l1s={l1s} courseId={courseId} /> : null}
+                                    module={newModule} sections={sections} l1s={l1s} courseId={courseId}/> : null}
             </div>
         );
     }
 
     componentWillUnmount() {
         this.props.clearData();
+    }
+
+    onSortableItemClick(module) {
+        debugger;
+        console.log("clicked on " + module);
     }
 
     toggleAddModulePopup() {

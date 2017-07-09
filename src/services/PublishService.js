@@ -6,8 +6,11 @@
 
 import {makeRequest, errorHandler} from "./APIService";
 import Module from "./../models/Module";
+import Link from "./../models/Link";
+
 import {
-    getModulesEndpoint
+    getModulesEndpoint,
+    getLinksEndpoint
 } from "./../models/APIEndpoints";
 
 export function fetchModules(courseId, moduleId) {
@@ -28,6 +31,28 @@ export function updateModules(courseId, module, config) {
             data: module
         }).then(res => {
             (config.method !== "delete") ? resolve(new Module(res.data)) : resolve(res.data);
+        }).catch(err => errorHandler(reject, err));
+    });
+}
+
+export function fetchLinks(moduleId, linkId) {
+    return new Promise((resolve, reject) => {
+        makeRequest({
+            url: getLinksEndpoint(moduleId, linkId)
+        }).then(res => {
+            resolve(Link.parseLinks(res.data));
+        }).catch(err => errorHandler(reject, err));
+    });
+}
+
+export function updateLinks(link, config) {
+    return new Promise((resolve, reject) => {
+        makeRequest({
+            method: config.method,
+            url: getLinksEndpoint(link.moduleId, link.id),
+            data: link
+        }).then(res => {
+            (config.method !== "delete") ? resolve(new Link(res.data)) : resolve(res.data);
         }).catch(err => errorHandler(reject, err));
     });
 }

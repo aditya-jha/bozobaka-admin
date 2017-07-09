@@ -1,33 +1,26 @@
 /**
- * Created by aditya on 1/7/17.
+ * Created by aditya on 7/7/17.
  */
 
 "use strict";
 
-import Link from "./Link";
+import Module from "./Module";
 
-export default class Module {
-    constructor(module) {
-        this.id = module.id;
-        this.name = module.name;
-        this.displayName = module.displayName;
-        this.active = module.active;
-        this.sectionId = module.sectionId;
-        this.l1Id = module.l1Id;
-        this.courseId = module.courseId;
-        this.description = module.description;
-        this.created = module.created || new Date();
-        this.updated = module.updated || new Date();
+export default class Link {
+    constructor(link) {
+        this.name = link.name;
+        this.displayName = link.displayName;
+        this.moduleId = link.moduleId;
+        this.created = link.created;
+        this.updated = link.updated;
 
-        if (module.links && module.links.constructor === Array) {
-            this.links = Link.parseLinks(module.links);
-        } else {
-            this.links = [];
+        if (link.module) {
+            this.module = new Module(link.module);
         }
     }
 
-    static parseModules(modules = []) {
-        return modules.map(module => new Module(module));
+    static parseLinks(links = []) {
+        return links.map(link => new Link(link));
     }
 
     toJSON(proto) {

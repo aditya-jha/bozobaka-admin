@@ -66,7 +66,7 @@ class LoginComponent extends React.Component {
                 email: this.refs.email.input.value,
                 password: this.refs.password.input.value,
                 rememberMe: this.refs.rememberMe.state.switched
-            }).then((res) => {
+            }).then(res => {
                 this.setState({showLoader: false});
                 this.props.toggleLoginStatus(true);
             }).catch((err) => {

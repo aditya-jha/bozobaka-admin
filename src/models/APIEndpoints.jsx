@@ -24,6 +24,7 @@ export const QUESTIONS = "/questions";
 export const EXAMS = "/exams";
 export const UPDATE_RANK = "/courses/updateRank";
 export const MODULES = "/modules";
+export const LINKS = "/links";
 
 export function getCourseSectionEndpoint(courseId, sectionId) {
     let endPoint = COURSES + "/" + courseId + SECTIONS;
@@ -53,4 +54,9 @@ export function getL4Endpoint(l3Id, l4Id) {
 export function getModulesEndpoint(courseId, moduleId) {
     let endPoint = COURSES + "/" + courseId + MODULES;
     return moduleId ? endPoint + "/" + moduleId : endPoint;
+}
+
+export function getLinksEndpoint(moduleId, linkId) {
+    let endPoint = MODULES + "/" + moduleId + LINKS;
+    return linkId ? endPoint + "/" + linkId : endPoint;
 }

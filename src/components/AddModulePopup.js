@@ -148,7 +148,7 @@ export default class AddModulePopup extends React.Component {
             return null;
         }
         module.displayName = module.name;
-        
+
         return updateModules(courseId, module, {
             method: module.id ? "PATCH" : "POST"
         }).then(res => {
