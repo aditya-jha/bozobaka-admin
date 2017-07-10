@@ -8,6 +8,8 @@ import PublishPopup from "./PublishingPopupComponent";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import AddModulePopup from "./AddModulePopup";
 import SortableComponent from "./SortableComponent";
+import Reorder from "react-reorder";
+import SortableListItem from "./SortableListItem";
 
 export default class PublishComponent extends React.Component {
     constructor(props) {
@@ -72,8 +74,15 @@ export default class PublishComponent extends React.Component {
 
                 <Row>
                     <Col xs={12}>
-                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={modules}
-                                           onClickCallback={this.onSortableItemClick}/>
+                        <Reorder
+                            itemKey="id"
+                            lock="horizontal"
+                            holdTime="200"
+                            list={modules}
+                            template={SortableListItem}
+                            callback={this.onSortEnd}
+                            itemClicked={this.onSortableItemClick}
+                        />
                     </Col>
                 </Row>
 
@@ -114,6 +123,7 @@ export default class PublishComponent extends React.Component {
     }
 
     onSortEnd(updatedOrder) {
+        debugger;
         console.log(updatedOrder);
     }
 

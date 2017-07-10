@@ -21,6 +21,7 @@ import {
 } from "./../actions/ModuleActions";
 import {browserHistory} from "react-router";
 import Urls from "./../models/Urls";
+import AddLinkPopup from "./AddLinkPopup";
 
 class PublishModuleComponent extends React.Component {
     constructor(props) {
@@ -101,7 +102,7 @@ class PublishModuleComponent extends React.Component {
                     <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
                                     module={selectedModule} sections={sections} l1s={l1s} courseId={courseId}/> : null}
                 {addLinkPopup ?
-                    }
+                    <AddLinkPopup/> : null}
             </div>
         );
     }
