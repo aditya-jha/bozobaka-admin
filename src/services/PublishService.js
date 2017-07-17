@@ -38,7 +38,7 @@ export function updateModules(courseId, module, config) {
 export function fetchLinks(moduleId, linkId) {
     return new Promise((resolve, reject) => {
         makeRequest({
-            url: getLinksEndpoint(moduleId, linkId)
+            url: getLinksEndpoint(moduleId, linkId) + "?filter={\"include\":[\"module\"]}"
         }).then(res => {
             resolve(Link.parseLinks(res.data));
         }).catch(err => errorHandler(reject, err));

@@ -37,7 +37,7 @@ export function LinksReducer(state = defaultState, action) {
         case INIT_LINKS:
             return {
                 ...state,
-                modules: action.links
+                links: action.links
             };
         default:
             return state;

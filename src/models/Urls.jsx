@@ -10,6 +10,7 @@ const URLs = {
     LIST_THEORY: "list-theory",
     ADD_THEORY: "theory",
     PUBLISH: "publish-module",
+    PUBLISH_LINK: "publish-link",
     TRASH: "trash",
     REVIEW_QUESTION: "review-question",
     MARKED_LATER: "marked-later"

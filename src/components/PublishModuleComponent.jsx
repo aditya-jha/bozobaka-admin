@@ -13,7 +13,6 @@ import {Row, Col} from "react-flexbox-grid";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import CircularProgress from "material-ui/CircularProgress";
 import RaisedButton from "material-ui/RaisedButton";
-import SortableComponent from "./SortableComponent";
 import AddModulePopup from "./AddModulePopup";
 import {getSections} from "./../actions/SectionActions";
 import {
@@ -22,6 +21,8 @@ import {
 import {browserHistory} from "react-router";
 import Urls from "./../models/Urls";
 import AddLinkPopup from "./AddLinkPopup";
+import SortableListItem from "./SortableListItem";
+import Reorder from "react-reorder";
 
 class PublishModuleComponent extends React.Component {
     constructor(props) {
@@ -43,18 +44,22 @@ class PublishModuleComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchLinks();
+        const {module} = this.props.location.query;
+        this.props.fetchLinks(module);
         this.props.fetchPublished(this.props.courseId);
         this.props.fetchSections(this.props.courseId);
     }
 
     render() {
-        const {links, modules, isLoading, newLink, userRole, selectedModule, sections, l1s, courseId} = this.props;
+        const {links, modules, isLoading, newLink, userRole, sections, l1s, courseId} = this.props;
         const {addModulePopup, addLinkPopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
             return <NoAccessErrorComponent/>;
         }
+
+        const selectedModule = modules.filter(module => module.id === this.props.location.query.module)[0];
+        if (!selectedModule) return null;
 
         const styles = {
             pageTitle: {
@@ -94,7 +99,9 @@ class PublishModuleComponent extends React.Component {
 
                 <Row>
                     <Col xs={12}>
-                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={modules}/>
+                        <Reorder itemKey="id" lock="horizontal" holdTime="200" list={links} template={SortableListItem}
+                                 callback={this.onSortEnd} itemClicked={this.onSortableItemClick}
+                        />
                     </Col>
                 </Row>
 
@@ -105,6 +112,10 @@ class PublishModuleComponent extends React.Component {
                     <AddLinkPopup/> : null}
             </div>
         );
+    }
+
+    onSortableItemClick(event, link) {
+
     }
 
     toggleAddModulePopup() {
@@ -123,7 +134,7 @@ class PublishModuleComponent extends React.Component {
         this.setState((prevState, props) => {
             if (prevState.addModulePopup) {
                 if (update) {
-                    props.fetchLinks(props.selectedModule.id);
+                    props.fetchLinks(props.location.query.module);
                 }
                 return {addModulePopup: false};
             }
@@ -142,13 +153,13 @@ PublishModuleComponent.propTypes = {
     isLoading: PropTypes.bool,
     userRole: PropTypes.string,
     newLink: PropTypes.object,
-    selectedModule: PropTypes.object,
     sections: PropTypes.array,
     l1s: PropTypes.array,
     courseId: PropTypes.string,
     fetchSections: PropTypes.func,
     fetchPublished: PropTypes.func,
-    fetchLinks: PropTypes.func
+    fetchLinks: PropTypes.func,
+    location: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
@@ -156,7 +167,6 @@ const mapStateToProps = (state) => {
         ...state.links,
         ...state.sections,
         modules: state.modules.modules,
-        selectedModule: state.modules.newModule,
         courseId: state.ContentReducer.selectedCourse.id,
         userRole: state.GlobalReducer.loggedInUser.role
     };
@@ -165,7 +175,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchLinks: (moduleId, linkId) => {
-            dispatch(fetchLinks(linkId));
+            dispatch(fetchLinks(moduleId, linkId));
         },
 
         fetchSections: (courseId) => {

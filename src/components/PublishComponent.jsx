@@ -7,9 +7,10 @@ import CircularProgress from "material-ui/CircularProgress";
 import PublishPopup from "./PublishingPopupComponent";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import AddModulePopup from "./AddModulePopup";
-import SortableComponent from "./SortableComponent";
 import Reorder from "react-reorder";
 import SortableListItem from "./SortableListItem";
+import {browserHistory} from "react-router";
+import Urls from "./../models/Urls";
 
 export default class PublishComponent extends React.Component {
     constructor(props) {
@@ -98,9 +99,9 @@ export default class PublishComponent extends React.Component {
         this.props.clearData();
     }
 
-    onSortableItemClick(module) {
-        debugger;
-        console.log("clicked on " + module);
+    onSortableItemClick(event, module) {
+        console.log("clicked on ", module);
+        browserHistory.push(Urls.PUBLISH_LINK + "?module=" + module.id);
     }
 
     toggleAddModulePopup() {
@@ -123,7 +124,6 @@ export default class PublishComponent extends React.Component {
     }
 
     onSortEnd(updatedOrder) {
-        debugger;
         console.log(updatedOrder);
     }
 

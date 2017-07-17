@@ -127,6 +127,7 @@ export default class AddModulePopup extends React.Component {
             });
             this.cancelButton(true);
         }).catch(err => {
+            console.log(err);
             this.setState({
                 requestInProgress: false,
                 openSnackbar: true,
@@ -147,10 +148,13 @@ export default class AddModulePopup extends React.Component {
         if (!module.name) {
             return null;
         }
+
+        module.sectionId = this.state.sectionValue;
+        module.l1Id = this.state.l1Value;
         module.displayName = module.name;
 
         return updateModules(courseId, module, {
-            method: module.id ? "PATCH" : "POST"
+            method: module.id ? "PUT" : "POST"
         }).then(res => {
             console.log(res);
             this.setState({
