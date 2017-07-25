@@ -17,6 +17,7 @@ import ListQuestions from "./containers/ListQuestionsContainer";
 import Dashboard from "./components/DashboardComponent";
 import PublishContainer from "./containers/PublishContainer";
 import PublishModule from "./components/PublishModuleComponent";
+import PublishContent from "./components/PublishContentComponent";
 
 require("style-loader!css-loader!./styles/styles.css");
 require("style-loader!css-loader!./../node_modules/react-quill/dist/quill.snow.css");
@@ -44,6 +45,7 @@ render(
                 <Route path={Urls.DRAFTS} components={ListQuestions} status="draft"/>
                 <Route path={Urls.PUBLISH} components={PublishContainer}/>
                 <Route path={Urls.PUBLISH_LINK} components={PublishModule}/>
+                <Route path={Urls.PUBLISH_CONTENT} components={PublishContent}/>
             </Route>
         </Router>
     </Provider>

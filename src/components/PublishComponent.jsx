@@ -100,7 +100,6 @@ export default class PublishComponent extends React.Component {
     }
 
     onSortableItemClick(event, module) {
-        console.log("clicked on ", module);
         browserHistory.push(Urls.PUBLISH_LINK + "?module=" + module.id);
     }
 

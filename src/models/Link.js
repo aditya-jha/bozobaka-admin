@@ -8,6 +8,7 @@ import Module from "./Module";
 
 export default class Link {
     constructor(link) {
+        this.id = link.id;
         this.name = link.name;
         this.displayName = link.displayName;
         this.moduleId = link.moduleId;

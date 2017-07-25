@@ -11,6 +11,7 @@ const URLs = {
     ADD_THEORY: "theory",
     PUBLISH: "publish-module",
     PUBLISH_LINK: "publish-link",
+    PUBLISH_CONTENT: "publish-content",
     TRASH: "trash",
     REVIEW_QUESTION: "review-question",
     MARKED_LATER: "marked-later"

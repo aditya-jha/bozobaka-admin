@@ -15,7 +15,7 @@ const SortableListItem = ({item}) => {
 };
 
 SortableListItem.propTypes = {
-    value: PropTypes.string
+    item: PropTypes.object
 };
 
 export default SortableListItem;
