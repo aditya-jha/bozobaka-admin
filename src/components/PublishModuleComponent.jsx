@@ -82,15 +82,14 @@ class PublishModuleComponent extends React.Component {
                 <Row>
                     <Col xs={12}>
                         {selectedModule.name}
-                        <span onClick={this.toggleAddModulePopup.bind(this)}>edit</span>
+                        <span onClick={this.toggleAddModulePopup.bind(this)}> <u>edit</u></span>
                     </Col>
                 </Row>
 
-                <br/><br/>
+                <br/>
 
                 <Row>
                     <Col xs={12}>
-                        <br/>
                         <RaisedButton primary={true} label="Add Link" onClick={this.toggleAddLinkPopup.bind(this)}/>
                     </Col>
                 </Row>
@@ -100,8 +99,7 @@ class PublishModuleComponent extends React.Component {
                 <Row>
                     <Col xs={12}>
                         <Reorder itemKey="id" lock="horizontal" holdTime="200" list={links} template={SortableListItem}
-                                 callback={this.onSortEnd} itemClicked={this.onSortableItemClick}
-                        />
+                                 callback={this.onSortEnd} itemClicked={this.onSortableItemClick}/>
                     </Col>
                 </Row>
 
@@ -109,7 +107,8 @@ class PublishModuleComponent extends React.Component {
                     <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
                                     module={selectedModule} sections={sections} l1s={l1s} courseId={courseId}/> : null}
                 {addLinkPopup ?
-                    <AddLinkPopup/> : null}
+                    <AddLinkPopup showDialog={addLinkPopup} onDialogClose={this.handleDialogClose.bind(this)}
+                                 link={newLink} module={selectedModule} courseId={courseId}/> : null}
             </div>
         );
     }
@@ -132,11 +131,11 @@ class PublishModuleComponent extends React.Component {
 
     handleDialogClose(update = false) {
         this.setState((prevState, props) => {
-            if (prevState.addModulePopup) {
+            if (prevState.addModulePopup || prevState.addLinkPopup) {
                 if (update) {
                     props.fetchLinks(props.location.query.module);
                 }
-                return {addModulePopup: false};
+                return {addModulePopup: false, addLinkPopup: false};
             }
             return prevState;
         });
