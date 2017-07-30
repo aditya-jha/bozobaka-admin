@@ -6,7 +6,8 @@
 
 import {
     fetchModules as fetchModulesRequest,
-    deleteLinkEntity as deleteLinkEntityRequest
+    deleteLinkEntity as deleteLinkEntityRequest,
+    updateOrder as updateOrderRequest
 } from "./../services/PublishService";
 
 import {
@@ -70,6 +71,21 @@ export function deleteLinkEntity(entityId, courseId, moduleId) {
                 } else {
                     dispatch(initModules([res]));
                 }
+            })
+            .catch(err => {
+                dispatch(moduleIsLoading(false));
+                dispatch(moduleHasErrored(true, err.message));
+            });
+    };
+}
+
+export function updateOrder(data) {
+    return (dispatch) => {
+        dispatch(moduleIsLoading(true));
+
+        updateOrderRequest(data)
+            .then(res => {
+                dispatch(moduleIsLoading(false));
             })
             .catch(err => {
                 dispatch(moduleIsLoading(false));

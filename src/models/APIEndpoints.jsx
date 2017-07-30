@@ -65,3 +65,14 @@ export function getLinksEndpoint(moduleId, linkId) {
 export function getLinkEntityEndpoint(linkId) {
     return LINKS + "/" + linkId  + LINK_ENTITIES;
 }
+
+export function getUpdateOrderUrl(data) {
+    if (data.courseId) {
+        // update module order
+        return MODULES + "/order";
+    } else if (data.moduleId) {
+        // update links order
+        return LINKS + "/order";
+    }
+    return LINK_ENTITIES + "/order";
+}

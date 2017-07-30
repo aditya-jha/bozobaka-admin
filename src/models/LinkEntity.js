@@ -9,13 +9,15 @@ export default class LinkEntity {
         this.id = entity.id;
         this.entityId = entity.entityId;
         this.entityType = entity.entityType;
-        this.rank = entity.rank;
+        this.rank = entity.rank || 0;
         this.created = entity.created;
         this.updated = entity.updated;
         this.linkId = entity.linkId;
     }
 
     static parseLinkEntities(entities = []) {
-        return entities.map(entity => new LinkEntity(entity));
+        return entities.map(entity => new LinkEntity(entity)).sort(function (a, b) {
+            return a.rank - b.rank;
+        });
     }
 }

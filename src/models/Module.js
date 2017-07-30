@@ -18,6 +18,7 @@ export default class Module {
         this.description = module.description;
         this.created = module.created || new Date();
         this.updated = module.updated || new Date();
+        this.rank = module.rank || 0;
 
         if (module.links && module.links.constructor === Array) {
             this.links = Link.parseLinks(module.links);
@@ -27,7 +28,9 @@ export default class Module {
     }
 
     static parseModules(modules = []) {
-        return modules.map(module => new Module(module));
+        return modules.map(module => new Module(module)).sort(function (a, b) {
+            return a.rank - b.rank;
+        });
     }
 
     toJSON(proto) {

@@ -15,17 +15,17 @@ export default class Link {
         this.moduleId = link.moduleId;
         this.created = link.created;
         this.updated = link.updated;
+        this.rank = link.rank || 0;
 
         if (link.linkEntities) {
             this.linkEntities = LinkEntity.parseLinkEntities(link.linkEntities);
         }
-        // if (link.module) {
-        //     this.module = new Module(link.module);
-        // }
     }
 
     static parseLinks(links = []) {
-        return links.map(link => new Link(link));
+        return links.map(link => new Link(link)).sort(function (a, b) {
+            return a.rank - b.rank;
+        });
     }
 
     toJSON(proto) {

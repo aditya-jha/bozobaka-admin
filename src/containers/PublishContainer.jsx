@@ -5,14 +5,11 @@ import PublishComponent from "./../components/PublishComponent";
 import {setStatus} from "./../actions/FilterActions";
 import {
     fetchData,
-    publishSortDialogStatus,
-    updateRank,
-    unpublish,
-    resetState,
-    publishPublishDialogStatus
+    resetState
 } from "./../actions/PublishActions";
 import {
-    fetchModules
+    fetchModules,
+    updateOrder
 } from "./../actions/ModuleActions";
 import {getSections} from "./../actions/SectionActions";
 
@@ -39,28 +36,16 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(setStatus(status));
         },
 
-        sortDialogStatus: (status) => {
-            dispatch(publishSortDialogStatus(status || false));
-        },
-
-        updateSort: (item, rank) => {
-            dispatch(updateRank(item, rank));
-        },
-
-        unpublish: (item) => {
-            dispatch(unpublish(item));
-        },
-
         clearData: () => {
             dispatch(resetState());
         },
 
-        publishDialogStatus: (status) => {
-            dispatch(publishPublishDialogStatus(status || false));
-        },
-
         fetchSections: (courseId) => {
             dispatch(getSections({courseId: courseId}));
+        },
+
+        updateOrder: (data) => {
+            dispatch(updateOrder(data));
         }
     };
 };

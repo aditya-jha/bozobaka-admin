@@ -76,7 +76,7 @@ export default class PublishComponent extends React.Component {
                 <Row>
                     <Col xs={12}>
                         <Reorder itemKey="id" lock="horizontal" holdTime="200" list={modules} template={SortableListItem}
-                            callback={this.onSortEnd} itemClicked={this.onSortableItemClick}
+                            callback={this.onSortEnd.bind(this)} itemClicked={this.onSortableItemClick}
                         />
                     </Col>
                 </Row>
@@ -116,8 +116,12 @@ export default class PublishComponent extends React.Component {
         });
     }
 
-    onSortEnd(updatedOrder) {
-        console.log(updatedOrder);
+    onSortEnd(event, module, x, y, updatedItems) {
+        debugger;
+        this.props.updateOrder({
+            courseId: this.props.courseId,
+            moduleOrder: updatedItems.map(item => item.id)
+        });
     }
 
     unpublish() {
@@ -133,13 +137,9 @@ PublishComponent.propTypes = {
     courseId: PropTypes.string,
     updateStatusFilter: PropTypes.func,
     contentType: PropTypes.string,
-    sortDialog: PropTypes.bool,
-    unpublish: PropTypes.func,
-    sortDialogStatus: PropTypes.func,
-    updateSort: PropTypes.func,
+    updateOrder: PropTypes.func,
     clearData: PropTypes.func,
     publishDialog: PropTypes.bool,
-    publishDialogStatus: PropTypes.func,
     userRole: PropTypes.string,
     newModule: PropTypes.object,
     l1s: PropTypes.array,

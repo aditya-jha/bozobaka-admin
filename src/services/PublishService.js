@@ -12,6 +12,7 @@ import {
     getModulesEndpoint,
     getLinksEndpoint,
     getLinkEntityEndpoint,
+    getUpdateOrderUrl,
     LINK_ENTITIES
 } from "./../models/APIEndpoints";
 
@@ -81,4 +82,16 @@ export function deleteLinkEntity(entityId) {
             resolve(res.data);
         }).catch(err => errorHandler(reject, err));
     });
+}
+
+export function updateOrder(data) {
+    return new Promise((resolve, reject) => {
+        makeRequest({
+            method: "post",
+            url: getUpdateOrderUrl(data),
+            data: data
+        }).then(res => {
+            resolve(res.data);
+        }).catch(err => errorHandler(reject, err));
+    })
 }
