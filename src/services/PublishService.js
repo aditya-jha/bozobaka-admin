@@ -93,5 +93,5 @@ export function updateOrder(data) {
         }).then(res => {
             resolve(res.data);
         }).catch(err => errorHandler(reject, err));
-    })
+    });
 }

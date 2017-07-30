@@ -59,7 +59,9 @@ class PublishModuleComponent extends React.Component {
         }
 
         const selectedModule = modules.filter(module => module.id === this.props.location.query.module)[0];
-        if (!selectedModule) return null;
+        if (!selectedModule) {
+            return null;
+        }
 
         const styles = {
             pageTitle: {

@@ -152,6 +152,7 @@ export default class AddModulePopup extends React.Component {
         module.sectionId = this.state.sectionValue;
         module.l1Id = this.state.l1Value;
         module.displayName = module.name;
+        module.rank = this.props.rankToSet;
 
         return updateModules(courseId, module, {
             method: module.id ? "PUT" : "POST"
@@ -177,6 +178,7 @@ AddModulePopup.propTypes = {
     onDialogClose: PropTypes.func.isRequired,
     l1s: PropTypes.array.isRequired,
     showDialog: PropTypes.bool.isRequired,
-    courseId: PropTypes.string.isRequired
+    courseId: PropTypes.string.isRequired,
+    rankToSet: PropTypes.number
 };
 

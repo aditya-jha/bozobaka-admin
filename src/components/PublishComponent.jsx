@@ -37,7 +37,7 @@ export default class PublishComponent extends React.Component {
     }
 
     render() {
-        const {sections, l1s, isLoading, publishDialog, userRole, newModule, modules, courseId} = this.props;
+        const {sections, l1s, isLoading, userRole, newModule, modules, courseId} = this.props;
         const {addModulePopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
@@ -62,11 +62,10 @@ export default class PublishComponent extends React.Component {
                     </Col>
                 </Row>
 
-                <br/><br/>
+                <br/>
 
                 <Row>
                     <Col xs={12}>
-                        <br/>
                         <RaisedButton primary={true} label="Add Module" onClick={this.toggleAddModulePopup.bind(this)}/>
                     </Col>
                 </Row>
@@ -81,10 +80,10 @@ export default class PublishComponent extends React.Component {
                     </Col>
                 </Row>
 
-                {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
                 {addModulePopup ?
                     <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
-                                    module={newModule} sections={sections} l1s={l1s} courseId={courseId}/> : null}
+                                    rankToSet={modules.length} module={newModule} sections={sections} l1s={l1s}
+                                    courseId={courseId}/> : null}
             </div>
         );
     }
@@ -117,16 +116,10 @@ export default class PublishComponent extends React.Component {
     }
 
     onSortEnd(event, module, x, y, updatedItems) {
-        debugger;
         this.props.updateOrder({
             courseId: this.props.courseId,
             moduleOrder: updatedItems.map(item => item.id)
         });
-    }
-
-    unpublish() {
-        this.props.unpublish(this.selectedItem);
-        this.props.sortDialogStatus(null, false);
     }
 }
 
@@ -139,7 +132,6 @@ PublishComponent.propTypes = {
     contentType: PropTypes.string,
     updateOrder: PropTypes.func,
     clearData: PropTypes.func,
-    publishDialog: PropTypes.bool,
     userRole: PropTypes.string,
     newModule: PropTypes.object,
     l1s: PropTypes.array,
