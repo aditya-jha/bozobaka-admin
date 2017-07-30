@@ -75,14 +75,8 @@ export default class PublishComponent extends React.Component {
 
                 <Row>
                     <Col xs={12}>
-                        <Reorder
-                            itemKey="id"
-                            lock="horizontal"
-                            holdTime="200"
-                            list={modules}
-                            template={SortableListItem}
-                            callback={this.onSortEnd}
-                            itemClicked={this.onSortableItemClick}
+                        <Reorder itemKey="id" lock="horizontal" holdTime="200" list={modules} template={SortableListItem}
+                            callback={this.onSortEnd} itemClicked={this.onSortableItemClick}
                         />
                     </Col>
                 </Row>

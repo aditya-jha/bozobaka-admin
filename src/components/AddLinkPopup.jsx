@@ -22,7 +22,8 @@ export default class AddLinkPopup extends React.Component {
         super(props);
         this.scope = {
             link: {
-                moduleId: props.link.moduleId || props.module.id
+                moduleId: props.link.moduleId || props.module.id,
+                id: props.link.id
             }
         };
 

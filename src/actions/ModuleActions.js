@@ -4,7 +4,10 @@
 
 "use strict";
 
-import {fetchModules as fetchModulesRequest} from "./../services/PublishService";
+import {
+    fetchModules as fetchModulesRequest,
+    deleteLinkEntity as deleteLinkEntityRequest
+} from "./../services/PublishService";
 
 import {
     MODULES_HAS_ERRORED,
@@ -41,7 +44,32 @@ export function fetchModules(courseId, moduleId) {
         fetchModulesRequest(courseId, moduleId)
             .then(res => {
                 dispatch(moduleIsLoading(false));
-                dispatch(initModules(res));
+                if (res.constructor === Array) {
+                    dispatch(initModules(res));
+                } else {
+                    dispatch(initModules([res]));
+                }
+            })
+            .catch(err => {
+                dispatch(moduleIsLoading(false));
+                dispatch(moduleHasErrored(true, err.message));
+            });
+    };
+}
+
+export function deleteLinkEntity(entityId, courseId, moduleId) {
+    return (dispatch) => {
+        dispatch(moduleIsLoading(true));
+
+        deleteLinkEntityRequest(entityId)
+            .then(() => fetchModulesRequest(courseId, moduleId))
+            .then(res => {
+                dispatch(moduleIsLoading(false));
+                if (res.constructor === Array) {
+                    dispatch(initModules(res));
+                } else {
+                    dispatch(initModules([res]));
+                }
             })
             .catch(err => {
                 dispatch(moduleIsLoading(false));

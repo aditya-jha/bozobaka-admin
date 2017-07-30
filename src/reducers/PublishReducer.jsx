@@ -18,7 +18,7 @@ const defaultState = {
     isLoading: false,
     hasErrored: false,
     errorMessage: "",
-    contentType: "",
+    contentType: "question",
     sortDialog: false,
     publishDialog: false
 };

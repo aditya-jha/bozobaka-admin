@@ -6,21 +6,17 @@
 
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
-import {
-    fetchLinks
-} from "../actions/LinkActions";
-import {Row, Col} from "react-flexbox-grid";
+import {fetchModules, deleteLinkEntity} from "./../actions/ModuleActions";
+import {Col, Row} from "react-flexbox-grid";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import CircularProgress from "material-ui/CircularProgress";
 import RaisedButton from "material-ui/RaisedButton";
-import SortableComponent from "./SortableComponent";
-import {getSections} from "../actions/SectionActions";
-import {
-    fetchModules
-} from "../actions/ModuleActions";
+import AddLinkPopup from "./AddLinkPopup";
 import {browserHistory} from "react-router";
 import Urls from "../models/Urls";
 import PublishPopup from "./PublishingPopupComponent";
+import SortableListItem from "./SortablePublishContentItemComponent";
+import Reorder from "react-reorder";
 
 class PublishContentComponent extends React.Component {
     constructor(props) {
@@ -42,18 +38,28 @@ class PublishContentComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchLinks();
-        this.props.fetchPublished(this.props.courseId);
-        this.props.fetchSections(this.props.courseId);
+        const {module, link} = this.props.location.query;
+        if (!module || !link) {
+            browserHistory.push(Urls.PUBLISH);
+        }
+        this.props.fetchModules(this.props.courseId, module);
     }
 
     render() {
-        const {isLoading, userRole, selectedLink, courseId} = this.props;
-        const {addContentPopup} = this.state;
+        const {isLoading, userRole, modules, courseId} = this.props;
+        const {addContentPopup, addLinkPopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
             return <NoAccessErrorComponent/>;
         }
+
+        const selectedModule = modules[0];
+        if (!selectedModule) {
+            return null;
+        }
+
+        const selectedLink = selectedModule.links.filter(link => link.id === this.props.location.query.link)[0];
+        const linkEntities = selectedLink.linkEntities || [];
 
         const styles = {
             pageTitle: {
@@ -66,7 +72,7 @@ class PublishContentComponent extends React.Component {
                 <br/>
                 <Row>
                     <Col xs={10}>
-                        <h1 style={styles.pageTitle}>Publish (Content)</h1>
+                        <h1 style={styles.pageTitle}>Publish (Link)</h1>
                     </Col>
                     <Col xs={2}>
                         {isLoading ? <CircularProgress size={32}/> : null}
@@ -76,15 +82,14 @@ class PublishContentComponent extends React.Component {
                 <Row>
                     <Col xs={12}>
                         {selectedLink.name}
-                        <span onClick={this.toggleAddLinkPopup.bind(this)}>edit</span>
+                        <span onClick={this.toggleAddLinkPopup.bind(this)}> <u>edit</u></span>
                     </Col>
                 </Row>
 
-                <br/><br/>
+                <br/>
 
                 <Row>
                     <Col xs={12}>
-                        <br/>
                         <RaisedButton primary={true} label="Add Content"
                                       onClick={this.toggleAddContentPopup.bind(this)}/>
                     </Col>
@@ -94,13 +99,27 @@ class PublishContentComponent extends React.Component {
 
                 <Row>
                     <Col xs={12}>
-                        <SortableComponent onSortEnd={this.onSortEnd.bind(this)} items={selectedLink.contents}/>
+                        <Reorder itemKey="id" lock="horizontal" holdTime="200" list={linkEntities} template={SortableListItem}
+                                 callback={this.onSortEnd} itemClicked={this.onSortableItemClick.bind(this)}/>
                     </Col>
                 </Row>
 
-                {addContentPopup ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
+                {addLinkPopup ?
+                    <AddLinkPopup showDialog={addLinkPopup} onDialogClose={this.handleDialogClose.bind(this)}
+                                  link={selectedLink} module={selectedModule} courseId={courseId}/> : null}
+                {addContentPopup ? <PublishPopup openDialog={addContentPopup} linkId={selectedLink.id}
+                                                 handleDialogClose={this.handleDialogClose.bind(this)}
+                                                 publishedItems={linkEntities}
+                                                 rankToSet={linkEntities.length + 1}/> : null}
             </div>
         );
+    }
+
+    onSortableItemClick(event, entity) {
+        if (event.target.className === "publishContentDeleteButton") {
+            // delete this linkEntity
+            this.props.deleteLinkEntity(entity, this.props.courseId, this.props.location.query.module);
+        }
     }
 
     toggleAddContentPopup() {
@@ -119,7 +138,7 @@ class PublishContentComponent extends React.Component {
         this.setState((prevState, props) => {
             if (prevState.addContentPopup) {
                 if (update) {
-                    props.fetchContent(props.selectedModule.id);
+                    props.fetchModules(props.courseId, this.props.location.query.module);
                 }
                 return {addContentPopup: false};
             }
@@ -133,21 +152,18 @@ class PublishContentComponent extends React.Component {
 }
 
 PublishContentComponent.propTypes = {
-    links: PropTypes.array,
     isLoading: PropTypes.bool,
     userRole: PropTypes.string,
-    selectedLink: PropTypes.object,
     courseId: PropTypes.string,
-    fetchSections: PropTypes.func,
-    fetchPublished: PropTypes.func,
-    fetchLinks: PropTypes.func
+    fetchModules: PropTypes.func,
+    location: PropTypes.object,
+    modules: PropTypes.array,
+    deleteLinkEntity: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
     return {
-        ...state.links,
-        ...state.sections,
-        selectedLink: state.links.newLink,
+        ...state.modules,
         courseId: state.ContentReducer.selectedCourse.id,
         userRole: state.GlobalReducer.loggedInUser.role
     };
@@ -155,16 +171,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchLinks: (moduleId, linkId) => {
-            dispatch(fetchLinks(linkId));
+        fetchModules: (courseId, moduleId) => {
+            dispatch(fetchModules(courseId, moduleId));
         },
 
-        fetchSections: (courseId) => {
-            dispatch(getSections({courseId: courseId}));
-        },
-
-        fetchPublished: (courseId) => {
-            dispatch(fetchModules(courseId));
+        deleteLinkEntity: (entity, courseId, moduleId) => {
+            dispatch(deleteLinkEntity(entity.id, courseId, moduleId));
         }
     };
 };

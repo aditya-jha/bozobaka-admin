@@ -5,6 +5,7 @@
 "use strict";
 
 import Module from "./Module";
+import LinkEntity from "./LinkEntity";
 
 export default class Link {
     constructor(link) {
@@ -15,9 +16,12 @@ export default class Link {
         this.created = link.created;
         this.updated = link.updated;
 
-        if (link.module) {
-            this.module = new Module(link.module);
+        if (link.linkEntities) {
+            this.linkEntities = LinkEntity.parseLinkEntities(link.linkEntities);
         }
+        // if (link.module) {
+        //     this.module = new Module(link.module);
+        // }
     }
 
     static parseLinks(links = []) {

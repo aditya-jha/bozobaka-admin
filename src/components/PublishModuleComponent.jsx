@@ -114,7 +114,8 @@ class PublishModuleComponent extends React.Component {
     }
 
     onSortableItemClick(event, link) {
-        browserHistory.push(Urls.PUBLISH_CONTENT + "?link=" + link.id);
+        const url = Urls.PUBLISH_CONTENT + "?module=" + link.moduleId + "&link=" + link.id;
+        browserHistory.push(url);
     }
 
     toggleAddModulePopup() {
