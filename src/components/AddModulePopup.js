@@ -152,7 +152,9 @@ export default class AddModulePopup extends React.Component {
         module.sectionId = this.state.sectionValue;
         module.l1Id = this.state.l1Value;
         module.displayName = module.name;
-        module.rank = this.props.rankToSet;
+        if (!module.hasOwnProperty("rank")) {
+            module.rank = this.props.rankToSet;
+        }
 
         return updateModules(courseId, module, {
             method: module.id ? "PUT" : "POST"
