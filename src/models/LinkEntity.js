@@ -9,6 +9,7 @@ export default class LinkEntity {
         this.id = entity.id;
         this.entityId = entity.entityId;
         this.entityType = entity.entityType;
+        this.description = entity.description;
         this.rank = entity.rank || 0;
         this.created = entity.created;
         this.updated = entity.updated;

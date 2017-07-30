@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 const SortablePublishContentItemComponent = ({item}) => {
     return (
         <li className="sortableListItem">
-            {item.id} | {item.entityType}
+            {item.description}
             <span className="publishContentDeleteButton">delete</span>
         </li>
     );

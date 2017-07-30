@@ -7,20 +7,19 @@ import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import {Row, Col} from "react-flexbox-grid";
 import CircularProgress from "material-ui/CircularProgress";
-import Snackbar from "material-ui/Snackbar";
 import {
     publishInitQuestions,
     publishInitTheories,
     fetchData as fetchDataRequest,
     publishHasErrored,
-    publishItem as publishItemRequest,
-    publishPublishDialogStatus
+    publishItem as publishItemRequest
 } from "./../actions/PublishActions";
 import ListTableComponent from "./ListTableComponent";
 
 class PublishingPopupComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.publishedItems = {};
         this.headerColumns = [{
             displayName: "Question",
             key: "question"
@@ -66,7 +65,6 @@ class PublishingPopupComponent extends React.Component {
 
     componentDidMount() {
         this.props.fetchData();
-        this.publishedItems = {};
         this.props.publishedItems.forEach(item => {
             this.publishedItems[item.entityId] = item;
         });
@@ -118,12 +116,18 @@ class PublishingPopupComponent extends React.Component {
         const {questions, theories, contentType, publishItem, rankToSet, linkId} = this.props;
         this.selectedItem = contentType === "question" ? questions[index] : theories[index];
 
+        function getDescription(item) {
+            return item.id + " | " + item.question.substr(0, 20) + " | " + item.section.name + " | " + item.l1.name
+                + " | " + item.l2.name + " | " + item.l3.name + " | " + item.l4.name;
+        }
+
         if (columnsId === 6) {
             // publish
             const item = {
                 entityId: this.selectedItem.id,
                 entityType: contentType,
-                rank: rankToSet
+                rank: rankToSet,
+                description: getDescription(this.selectedItem)
             };
             publishItem(item, linkId);
             this.dialogStatus(false);
@@ -175,10 +179,6 @@ const mapDispatchToProps = (dispatch) => {
 
         fetchData: () => {
             dispatch(fetchDataRequest());
-        },
-
-        publishDialogStatus: (status) => {
-            dispatch(publishPublishDialogStatus(status || false));
         },
 
         publishItem: (item, linkId) => {

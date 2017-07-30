@@ -17,6 +17,9 @@ import Urls from "../models/Urls";
 import PublishPopup from "./PublishingPopupComponent";
 import SortableListItem from "./SortablePublishContentItemComponent";
 import Reorder from "react-reorder";
+import {
+    fetchData as fetchDataRequest,
+} from "./../actions/PublishActions";
 
 class PublishContentComponent extends React.Component {
     constructor(props) {
@@ -43,6 +46,7 @@ class PublishContentComponent extends React.Component {
             browserHistory.push(Urls.PUBLISH);
         }
         this.props.fetchModules(this.props.courseId, module);
+        this.props.fetchAcceptedItems();
     }
 
     render() {
@@ -121,8 +125,15 @@ class PublishContentComponent extends React.Component {
     onSortableItemClick(event, entity) {
         if (event.target.className === "publishContentDeleteButton") {
             // delete this linkEntity
-            this.props.deleteLinkEntity(entity, this.props.courseId, this.props.location.query.module);
+            return this.props.deleteLinkEntity(entity, this.props.courseId, this.props.location.query.module);
         }
+
+        if (entity.entityType === "question") {
+            browserHistory.push(Urls.ADD_QUESTION + "?id=" + entity.entityId);
+        } else {
+            browserHistory.push(Urls.ADD_THEORY + "?id=" + entity.entityId);
+        }
+        return "";
     }
 
     toggleAddContentPopup() {
@@ -165,7 +176,8 @@ PublishContentComponent.propTypes = {
     location: PropTypes.object,
     modules: PropTypes.array,
     deleteLinkEntity: PropTypes.func,
-    updateOrder: PropTypes.func
+    updateOrder: PropTypes.func,
+    fetchAcceptedItems: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
@@ -188,6 +200,10 @@ const mapDispatchToProps = (dispatch) => {
 
         updateOrder: (data) => {
             dispatch(updateOrder(data));
+        },
+
+        fetchAcceptedItems: () => {
+            dispatch(fetchDataRequest());
         }
     };
 };
