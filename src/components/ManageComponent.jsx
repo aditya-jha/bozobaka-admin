@@ -2,7 +2,7 @@
 
 import React from "react";
 import ContentService from "./../services/ContentService";
-import {Row, Col} from "react-flexbox-grid";
+import {Col, Row} from "react-flexbox-grid";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import RaisedButton from "material-ui/RaisedButton";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui/Table";

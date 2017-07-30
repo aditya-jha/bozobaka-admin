@@ -7,6 +7,7 @@
 import axios from "axios";
 import {API_BASE} from "./../models/APIEndpoints";
 import LoginService from "./LoginService";
+import {browserHistory} from "react-router";
 
 axios.interceptors.request.use((config) => {
     config.headers["Authorization"] = LoginService.getAccessToken();
@@ -31,12 +32,17 @@ export function makeRequest(config) {
 }
 
 export function errorHandler(reject, err) {
-    console.log(err);
-    switch (err.code) {
-        case "ECONNABORTED":
-            reject(err);
+    if (err.code === "ECONNABORTED") {
+        return reject(err);
+    }
+
+    switch (err.response.status) {
+        case 401:
+            LoginService.logout();
+            browserHistory.push("/");
             break;
         default:
-            err.response ? reject(err.response.data.error) : reject(err);
+            return reject(err.response.data.error);
     }
+    return reject(err.response.data.error);
 }

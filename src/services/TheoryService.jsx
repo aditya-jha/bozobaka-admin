@@ -27,7 +27,7 @@ export function fetchTheory(params) {
                 filter: JSON.stringify({
                     where: params.filter,
                     order: params.order
-                }),
+                })
             }
         }).then(res => {
             if (typeof res.data === "object" && res.data.constructor === Array) {
@@ -35,7 +35,6 @@ export function fetchTheory(params) {
             } else {
                 resolve(new Theory(res.data));
             }
-
         }).catch(err => errorHandler(reject, err));
     });
 }

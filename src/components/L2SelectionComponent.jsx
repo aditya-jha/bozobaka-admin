@@ -9,19 +9,6 @@ class L2SelectionComponent extends React.Component {
         super(props);
     }
 
-    componentWillReceiveProps(nextProps) {
-        // const {l2Id, onChange} = this.props;
-        // if (nextProps.l2s.length) {
-        //     if (l2Id !== nextProps.l2Id) {
-        //         onChange(null, null, nextProps.l2s[0].id);
-        //     }
-        // }
-    }
-
-    componentWillMount() {
-
-    }
-
     render() {
         const {l2Id, l2s, onChange, l1Id, width} = this.props;
         let menuItems = l2s.filter((l2) => (l2.l1Id === l1Id));

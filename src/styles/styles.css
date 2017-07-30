@@ -46,3 +46,20 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.sortableListItem {
+    list-style: none;
+    padding: 1em;
+    border: 1px dashed black;
+    cursor: pointer;
+}
+
+.publishContentDeleteButton {
+    float: right;
+    cursor: pointer;
+}
+
+.publishPopupDialog {
+    width: 90% !important;
+    max-width: 100% !important;
+}

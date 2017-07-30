@@ -124,7 +124,7 @@ const ContentService = {
                         resolve(new ContentWriter(res.data));
                         break;
                     case "put":
-                        resolve(new ContentWriter(res.data[0]))
+                        resolve(new ContentWriter(res.data[0]));
                         break;
                     default:
                         reject("not handled");

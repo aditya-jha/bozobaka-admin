@@ -1,17 +1,12 @@
 "use strict";
 
-import React, {PropTypes} from "react";
+import React from "react";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import {connect} from "react-redux";
-import {
-    sourceUpdateName,
-    postSource,
-    sourceDialogState,
-    sourceRequestState
-} from "./../actions/SourceActions";
+import {postSource, sourceDialogState, sourceRequestState, sourceUpdateName} from "./../actions/SourceActions";
 import CircularProgress from "material-ui/CircularProgress";
 
 class AddSourceComponent extends React.Component {
@@ -37,9 +32,9 @@ class AddSourceComponent extends React.Component {
             <div>
                 <RaisedButton label="Add Source" primary={true} onClick={setDialogState.bind(this, true)}/>
                 <Dialog title="Add Source" actions={actions} modal={false} open={openDialog}
-                    onRequestClose={setDialogState.bind(this)}>
+                        onRequestClose={setDialogState.bind(this)}>
                     <TextField title="Source" hintText="Add Source Name" onChange={sourceTextChange.bind(this)}
-                               fullWidth={true} />
+                               fullWidth={true}/>
                     {isLoading ? <CircularProgress/> : null}
                 </Dialog>
             </div>

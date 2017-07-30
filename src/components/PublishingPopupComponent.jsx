@@ -7,20 +7,19 @@ import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import {Row, Col} from "react-flexbox-grid";
 import CircularProgress from "material-ui/CircularProgress";
-import Snackbar from "material-ui/Snackbar";
 import {
     publishInitQuestions,
     publishInitTheories,
     fetchData as fetchDataRequest,
     publishHasErrored,
-    publishItem as publishItemRequest,
-    publishPublishDialogStatus
+    publishItem as publishItemRequest
 } from "./../actions/PublishActions";
 import ListTableComponent from "./ListTableComponent";
 
 class PublishingPopupComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.publishedItems = {};
         this.headerColumns = [{
             displayName: "Question",
             key: "question"
@@ -42,6 +41,9 @@ class PublishingPopupComponent extends React.Component {
             actionLabel: "Publish"
         }];
         this.selectedItem = {};
+        this.state = {
+            openDialog: props.publishDialog
+        };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,18 +65,16 @@ class PublishingPopupComponent extends React.Component {
 
     componentDidMount() {
         this.props.fetchData();
+        this.props.publishedItems.forEach(item => {
+            this.publishedItems[item.entityId] = item;
+        });
     }
 
     render() {
-        const {questions, theories, isLoading, contentType, publishDialog, publishDialogStatus, fetchData} = this.props;
-        const tableRows = contentType === "question" ? questions : theories;
-
-        const style = {
-            dialog: {
-                width: "90%",
-                maxWidth: 1000
-            }
-        };
+        const {questions, theories, isLoading, contentType, fetchData} = this.props;
+        const {openDialog} = this.state;
+        let tableRows = contentType === "question" ? questions : theories;
+        tableRows = tableRows.filter(row => !this.publishedItems[row.id]);
 
         const actions = (
             <Row>
@@ -82,16 +82,16 @@ class PublishingPopupComponent extends React.Component {
                     {isLoading ? <CircularProgress size={32}/> : null}
                 </Col>
                 <Col xs={6} sm={6}>
-                    <FlatButton label="Cancel" onClick={publishDialogStatus.bind(this, false)}/>
+                    <FlatButton label="Cancel" onClick={this.dialogStatus.bind(this, false)}/>
                 </Col>
                 <Col xs={6} sm={3}>
-                    <RaisedButton primary={true} label="Send" onClick={publishDialogStatus.bind(this, false)}/>
+                    <RaisedButton primary={true} label="Send" onClick={this.dialogStatus.bind(this, false)}/>
                 </Col>
             </Row>
         );
 
         return (
-            <Dialog title="Accepted Items" open={publishDialog} actions={actions} autoScrollBodyContent={true}>
+            <Dialog contentClassName="publishPopupDialog" title="Accepted Items" open={openDialog} actions={actions} autoScrollBodyContent={true}>
                 <Row>
                     <Col xs={12}>
                         <ListTableComponent headerColumns={this.headerColumns} tableRows={tableRows} usage="publish2"
@@ -113,14 +113,32 @@ class PublishingPopupComponent extends React.Component {
 
     onCellClick(rowNumber, columnsId) {
         const index = rowNumber - 1;
-        const {questions, theories, contentType, publishItem, rankToSet, publishDialogStatus} = this.props;
+        const {questions, theories, contentType, publishItem, rankToSet, linkId} = this.props;
         this.selectedItem = contentType === "question" ? questions[index] : theories[index];
+
+        function getDescription(item) {
+            return item.id + " | " + item.question.substr(0, 20) + " | " + item.section.name + " | " + item.l1.name
+                + " | " + item.l2.name + " | " + item.l3.name + " | " + item.l4.name;
+        }
 
         if (columnsId === 6) {
             // publish
-            publishItem(this.selectedItem, rankToSet);
-            publishDialogStatus(false);
+            const item = {
+                entityId: this.selectedItem.id,
+                entityType: contentType,
+                rank: rankToSet,
+                description: getDescription(this.selectedItem)
+            };
+            publishItem(item, linkId);
+            this.dialogStatus(false);
         }
+    }
+
+    dialogStatus(status) {
+        this.setState({
+            openDialog: status
+        });
+        this.props.handleDialogClose(true);
     }
 }
 
@@ -133,22 +151,25 @@ PublishingPopupComponent.propTypes = {
     isLoading: PropTypes.bool,
     hasErrored: PropTypes.bool,
     errorMessage: PropTypes.string,
-    publishDialog: PropTypes.bool,
-    publishDialogStatus: PropTypes.func,
     contentType: PropTypes.string,
     publishItem: PropTypes.func,
-    rankToSet: PropTypes.number
+    rankToSet: PropTypes.number,
+    linkId: PropTypes.string,
+    publishDialog: PropTypes.bool,
+    handleDialogClose: PropTypes.func,
+    publishedItems: PropTypes.array
 };
 
 const mapStateToProps = (state, ownProps) => {
     return {
         ...state.publish,
         courseId: state.ContentReducer.selectedCourse.id,
-        rankToSet: ownProps.rankToSet
+        rankToSet: ownProps.rankToSet,
+        publishDialog: ownProps.openDialog
     };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         resetState: () => {
             dispatch(publishInitQuestions([]));
@@ -160,12 +181,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(fetchDataRequest());
         },
 
-        publishDialogStatus: (status) => {
-            dispatch(publishPublishDialogStatus(status || false));
-        },
-
-        publishItem: (item, rank) => {
-            dispatch(publishItemRequest(item, rank));
+        publishItem: (item, linkId) => {
+            dispatch(publishItemRequest(item, linkId));
         }
     };
 };

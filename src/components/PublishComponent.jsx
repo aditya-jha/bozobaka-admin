@@ -2,52 +2,27 @@
 
 import React, {PropTypes} from "react";
 import {Row, Col} from "react-flexbox-grid";
-import ListTableComponent from "./ListTableComponent";
-import Urls from "./../models/Urls";
-import {browserHistory} from "react-router";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
-import TextField from "material-ui/TextField";
 import CircularProgress from "material-ui/CircularProgress";
 import PublishPopup from "./PublishingPopupComponent";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
+import AddModulePopup from "./AddModulePopup";
+import Reorder from "react-reorder";
+import SortableListItem from "./SortableListItem";
+import {browserHistory} from "react-router";
+import Urls from "./../models/Urls";
 
 export default class PublishComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.headerColumns = [{
-            displayName: "Question/Theory",
-            key: "qt"
-        }, {
-            displayName: "Type",
-            key: "contentType"
-        }, {
-            displayName: "Section",
-            key: "sectionId"
-        }, {
-            displayName: "L1",
-            key: "l1Id"
-        }, {
-            displayName: "L2",
-            key: "l2Id"
-        }, {
-            displayName: "Sort",
-            key: "rank"
-        }, {
-            displayName: "Action",
-            key: "action",
-            actionLabel: "Add below"
-        }];
-        this.selectedItem = {};
+        this.state = {
+            addModulePopup: false
+        };
     }
 
     componentWillReceiveProps(nextProps) {
-        const {courseId, fetchPublished, contentType} = this.props;
+        const {courseId, fetchPublished} = this.props;
         if (courseId !== nextProps.courseId) {
-            fetchPublished();
-        }
-        if (contentType !== nextProps.contentType) {
             fetchPublished();
         }
     }
@@ -57,11 +32,13 @@ export default class PublishComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchPublished();
+        this.props.fetchPublished(this.props.courseId);
+        this.props.fetchSections(this.props.courseId);
     }
 
     render() {
-        const {published, fetchPublished, sortDialog, sortDialogStatus, isLoading, publishDialog, userRole} = this.props;
+        const {sections, l1s, isLoading, userRole, newModule, modules, courseId} = this.props;
+        const {addModulePopup} = this.state;
 
         if (userRole === "contentWriter" || userRole === "reviewer") {
             return <NoAccessErrorComponent/>;
@@ -73,55 +50,40 @@ export default class PublishComponent extends React.Component {
             }
         };
 
-        const actions = (
-            <Row>
-                <Col xs={6} sm={3}>
-                    <FlatButton secondary={true} label="Unpublish" onClick={this.unpublish.bind(this)}/>
-                </Col>
-                <Col xs={6} sm={6}>
-                    <FlatButton label="Cancel" onClick={sortDialogStatus.bind(this, false)}/>
-                </Col>
-                <Col xs={6} sm={3}>
-                    <RaisedButton primary={true} label="Update" onClick={this.updateSort.bind(this)}/>
-                </Col>
-            </Row>
-        );
-
         return (
             <div>
                 <br/>
                 <Row>
                     <Col xs={10}>
-                        <h1 style={styles.pageTitle}>Publish</h1>
+                        <h1 style={styles.pageTitle}>Publish (Module)</h1>
                     </Col>
                     <Col xs={2}>
                         {isLoading ? <CircularProgress size={32}/> : null}
                     </Col>
-                    <br/><br/>
                 </Row>
+
+                <br/>
+
                 <Row>
                     <Col xs={12}>
-                        <ListTableComponent headerColumns={this.headerColumns} tableRows={published} usage="publish"
-                                            isLoading={isLoading} onFilterChange={fetchPublished.bind(this)}
-                                            onCellClick={this.onCellClick.bind(this)}/>
+                        <RaisedButton primary={true} label="Add Module" onClick={this.toggleAddModulePopup.bind(this)}/>
                     </Col>
                 </Row>
+
                 <br/><br/>
-                <Dialog open={sortDialog} actions={actions} modal={false} title="Change Sorting #">
-                    <Row>
-                        <Col xs={4}>
-                            <p>From</p>
-                            <br/><br/>
-                            {this.selectedItem.rank}
-                        </Col>
-                        <Col xs={8}>
-                            <p>To</p>
-                            <TextField ref="newRankValue" type="number" floatingLabelText="Rank"/>
-                        </Col>
-                        <br/>
-                    </Row>
-                </Dialog>
-                {publishDialog ? <PublishPopup rankToSet={this.selectedItem.rank + 1}/> : null}
+
+                <Row>
+                    <Col xs={12}>
+                        <Reorder itemKey="id" lock="horizontal" holdTime="200" list={modules} template={SortableListItem}
+                                 callback={this.onSortEnd.bind(this)} itemClicked={this.onSortableItemClick}
+                        />
+                    </Col>
+                </Row>
+
+                {addModulePopup ?
+                    <AddModulePopup showDialog={addModulePopup} onDialogClose={this.handleDialogClose.bind(this)}
+                                    rankToSet={modules.length} module={newModule} sections={sections} l1s={l1s}
+                                    courseId={courseId}/> : null}
             </div>
         );
     }
@@ -130,52 +92,49 @@ export default class PublishComponent extends React.Component {
         this.props.clearData();
     }
 
-    onCellClick(rowNumber, columnsId) {
-        const index = rowNumber - 1;
-        const {published, sortDialogStatus, publishDialogStatus} = this.props;
-        this.selectedItem = published[index];
-        
-        if (columnsId === 7) {
-            // add below
-            publishDialogStatus(true);
-        } else if (columnsId === 6) {
-            // change sort
-            sortDialogStatus(true);
-        } else {
-            const url = this.selectedItem.question ? Urls.ADD_QUESTION : Urls.ADD_THEORY;
-            browserHistory.push(url + "?id=" + this.selectedItem.id);
-        }
+    onSortableItemClick(event, module) {
+        browserHistory.push(Urls.PUBLISH_LINK + "?module=" + module.id);
     }
 
-    updateSort() {
-        try {
-            const rank = parseInt(this.refs.newRankValue.input.value, 10);
-            this.props.updateSort(this.selectedItem, rank);
-            this.props.sortDialogStatus(null, false);
-        } catch (error) {
-            console.log(error);
-        }
+    toggleAddModulePopup() {
+        this.setState({
+            addModulePopup: !this.state.addModulePopup,
+            newModule: true
+        });
     }
 
-    unpublish() {
-        this.props.unpublish(this.selectedItem);
-        this.props.sortDialogStatus(null, false);
+    handleDialogClose(update = false) {
+        this.setState((prevState, props) => {
+            if (prevState.addModulePopup) {
+                if (update) {
+                    props.fetchPublished(props.courseId);
+                }
+                return {addModulePopup: false, newModule: false};
+            }
+            return prevState;
+        });
+    }
+
+    onSortEnd(event, module, x, y, updatedItems) {
+        this.props.updateOrder({
+            courseId: this.props.courseId,
+            moduleOrder: updatedItems.map(item => item.id)
+        });
     }
 }
 
 PublishComponent.propTypes = {
-    published: PropTypes.array,
+    sections: PropTypes.array,
     fetchPublished: PropTypes.func,
     isLoading: PropTypes.bool,
     courseId: PropTypes.string,
     updateStatusFilter: PropTypes.func,
     contentType: PropTypes.string,
-    sortDialog: PropTypes.bool,
-    unpublish: PropTypes.func,
-    sortDialogStatus: PropTypes.func,
-    updateSort: PropTypes.func,
+    updateOrder: PropTypes.func,
     clearData: PropTypes.func,
-    publishDialog: PropTypes.bool,
-    publishDialogStatus: PropTypes.func,
-    userRole: PropTypes.string
+    userRole: PropTypes.string,
+    newModule: PropTypes.object,
+    l1s: PropTypes.array,
+    fetchSections: PropTypes.func,
+    modules: PropTypes.array
 };

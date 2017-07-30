@@ -30,7 +30,6 @@ export function fetchQuestion(params) {
                 })
             }
         }).then(res => {
-            console.log("questions get", res);
             if (typeof res.data === "object" && res.data.constructor === Array) {
                 resolve(Question.parseQuestions(res.data));
             } else {

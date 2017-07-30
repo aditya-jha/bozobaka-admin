@@ -5,19 +5,20 @@ import PublishComponent from "./../components/PublishComponent";
 import {setStatus} from "./../actions/FilterActions";
 import {
     fetchData,
-    publishSortDialogStatus,
-    updateRank,
-    unpublish,
-    resetState,
-    fetchPublished,
-    publishPublishDialogStatus
+    resetState
 } from "./../actions/PublishActions";
+import {
+    fetchModules,
+    updateOrder
+} from "./../actions/ModuleActions";
+import {getSections} from "./../actions/SectionActions";
 
 const mapStateToProps = (state) => {
     return {
-        ...state.publish,
+        ...state.modules,
         courseId: state.ContentReducer.selectedCourse.id,
-        userRole: state.GlobalReducer.loggedInUser.role
+        userRole: state.GlobalReducer.loggedInUser.role,
+        ...state.sections
     };
 };
 
@@ -27,32 +28,24 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchData());
         },
 
-        fetchPublished: () => {
-            dispatch(fetchPublished());
+        fetchPublished: (courseId) => {
+            dispatch(fetchModules(courseId));
         },
 
         updateStatusFilter: (status) => {
             dispatch(setStatus(status));
         },
 
-        sortDialogStatus: (status) => {
-            dispatch(publishSortDialogStatus(status || false));
-        },
-
-        updateSort: (item, rank) => {
-            dispatch(updateRank(item, rank));
-        },
-
-        unpublish: (item) => {
-            dispatch(unpublish(item));
-        },
-
         clearData: () => {
             dispatch(resetState());
         },
 
-        publishDialogStatus: (status) => {
-            dispatch(publishPublishDialogStatus(status || false));
+        fetchSections: (courseId) => {
+            dispatch(getSections({courseId: courseId}));
+        },
+
+        updateOrder: (data) => {
+            dispatch(updateOrder(data));
         }
     };
 };

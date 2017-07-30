@@ -23,6 +23,9 @@ export const SOURCES = "/sources";
 export const QUESTIONS = "/questions";
 export const EXAMS = "/exams";
 export const UPDATE_RANK = "/courses/updateRank";
+export const MODULES = "/modules";
+export const LINKS = "/links";
+export const LINK_ENTITIES = "/linkEntities";
 
 export function getCourseSectionEndpoint(courseId, sectionId) {
     let endPoint = COURSES + "/" + courseId + SECTIONS;
@@ -49,3 +52,27 @@ export function getL4Endpoint(l3Id, l4Id) {
     return l4Id ? endPoint + "/" + l4Id : endPoint;
 }
 
+export function getModulesEndpoint(courseId, moduleId) {
+    let endPoint = COURSES + "/" + courseId + MODULES;
+    return moduleId ? endPoint + "/" + moduleId : endPoint;
+}
+
+export function getLinksEndpoint(moduleId, linkId) {
+    let endPoint = MODULES + "/" + moduleId + LINKS;
+    return linkId ? endPoint + "/" + linkId : endPoint;
+}
+
+export function getLinkEntityEndpoint(linkId) {
+    return LINKS + "/" + linkId  + LINK_ENTITIES;
+}
+
+export function getUpdateOrderUrl(data) {
+    if (data.courseId) {
+        // update module order
+        return MODULES + "/order";
+    } else if (data.moduleId) {
+        // update links order
+        return LINKS + "/order";
+    }
+    return LINK_ENTITIES + "/order";
+}

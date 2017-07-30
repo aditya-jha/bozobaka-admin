@@ -6,8 +6,8 @@ import DropdownDisplay from "./DropdownDisplayComponent";
 import RaisedButton from "material-ui/RaisedButton";
 import {Row, Col} from "react-flexbox-grid";
 import {deleteSources, fetchSources} from "./../actions/SourceActions";
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Dialog from "material-ui/Dialog";
+import FlatButton from "material-ui/FlatButton";
 import TextField from "material-ui/TextField";
 
 class SourceSelectionComponent extends React.Component {

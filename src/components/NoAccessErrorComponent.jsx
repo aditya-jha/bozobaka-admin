@@ -18,7 +18,7 @@ export default class NoAccessErrorComponent extends React.Component {
                     <RaisedButton primary={true} label="Go Home" onClick={this.homeButtonClicked.bind(this)}/>
                 </Col>
             </Row>
-        )
+        );
     }
 
     homeButtonClicked() {

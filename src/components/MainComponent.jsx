@@ -13,9 +13,9 @@ import HeaderContainer from "./../containers/HeaderContainer";
 const MainComponent = (props) => {
     return (
         <div>
-            <HeaderContainer />
+            <HeaderContainer/>
             <div>
-                <SidebarContainer />
+                <SidebarContainer/>
                 {props.children ? props.children : <DashboardComponent/>}
             </div>
         </div>
