@@ -6,7 +6,7 @@
 
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
-import {fetchModules, deleteLinkEntity} from "./../actions/ModuleActions";
+import {fetchModules, deleteLinkEntity, updateOrder} from "./../actions/ModuleActions";
 import {Col, Row} from "react-flexbox-grid";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import CircularProgress from "material-ui/CircularProgress";
@@ -103,7 +103,7 @@ class PublishContentComponent extends React.Component {
                 <Row>
                     <Col xs={12}>
                         <Reorder itemKey="id" lock="horizontal" holdTime="200" list={linkEntities} template={SortableListItem}
-                                 callback={this.onSortEnd} itemClicked={this.onSortableItemClick.bind(this)}/>
+                                 callback={this.onSortEnd.bind(this)} itemClicked={this.onSortableItemClick.bind(this)}/>
                     </Col>
                 </Row>
 
@@ -149,8 +149,11 @@ class PublishContentComponent extends React.Component {
         });
     }
 
-    onSortEnd(updatedOrder) {
-        console.log(updatedOrder);
+    onSortEnd(event, entity, x, y, updatedItems) {
+        this.props.updateOrder({
+            linkId: this.props.location.query.link,
+            entityOrder: updatedItems.map(item => item.id)
+        });
     }
 }
 
@@ -161,7 +164,8 @@ PublishContentComponent.propTypes = {
     fetchModules: PropTypes.func,
     location: PropTypes.object,
     modules: PropTypes.array,
-    deleteLinkEntity: PropTypes.func
+    deleteLinkEntity: PropTypes.func,
+    updateOrder: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
@@ -180,6 +184,10 @@ const mapDispatchToProps = (dispatch) => {
 
         deleteLinkEntity: (entity, courseId, moduleId) => {
             dispatch(deleteLinkEntity(entity.id, courseId, moduleId));
+        },
+
+        updateOrder: (data) => {
+            dispatch(updateOrder(data));
         }
     };
 };
