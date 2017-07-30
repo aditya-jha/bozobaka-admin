@@ -136,6 +136,9 @@ export default class AddLinkPopup extends React.Component {
         }
 
         link.displayName = link.name;
+        if (!link.hasOwnProperty("rank")) {
+            link.rank = this.props.rankToSet;
+        }
 
         return updateLinks(link, {
             method: link.id ? "PUT" : "POST"
@@ -160,6 +163,7 @@ AddLinkPopup.propTypes = {
     showDialog: PropTypes.bool,
     onDialogClose: PropTypes.func,
     courseId: PropTypes.string,
-    link: PropTypes.object
+    link: PropTypes.object,
+    rankToSet: PropTypes.number
 };
 

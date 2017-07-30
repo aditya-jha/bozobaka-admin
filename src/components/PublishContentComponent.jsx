@@ -59,6 +59,9 @@ class PublishContentComponent extends React.Component {
         }
 
         const selectedLink = selectedModule.links.filter(link => link.id === this.props.location.query.link)[0];
+        if (!selectedLink) {
+            return null;
+        }
         const linkEntities = selectedLink.linkEntities || [];
 
         const styles = {

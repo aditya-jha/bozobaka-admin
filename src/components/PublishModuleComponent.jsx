@@ -16,7 +16,8 @@ import RaisedButton from "material-ui/RaisedButton";
 import AddModulePopup from "./AddModulePopup";
 import {getSections} from "./../actions/SectionActions";
 import {
-    fetchModules
+    fetchModules,
+    updateOrder
 } from "./../actions/ModuleActions";
 import {browserHistory} from "react-router";
 import Urls from "./../models/Urls";
@@ -101,7 +102,7 @@ class PublishModuleComponent extends React.Component {
                 <Row>
                     <Col xs={12}>
                         <Reorder itemKey="id" lock="horizontal" holdTime="200" list={links} template={SortableListItem}
-                                 callback={this.onSortEnd} itemClicked={this.onSortableItemClick}/>
+                                 callback={this.onSortEnd.bind(this)} itemClicked={this.onSortableItemClick}/>
                     </Col>
                 </Row>
 
@@ -110,7 +111,7 @@ class PublishModuleComponent extends React.Component {
                                     module={selectedModule} sections={sections} l1s={l1s} courseId={courseId}/> : null}
                 {addLinkPopup ?
                     <AddLinkPopup showDialog={addLinkPopup} onDialogClose={this.handleDialogClose.bind(this)}
-                                 link={newLink} module={selectedModule} courseId={courseId}/> : null}
+                                 rankToSet={links.length} link={newLink} module={selectedModule} courseId={courseId}/> : null}
             </div>
         );
     }
@@ -144,8 +145,11 @@ class PublishModuleComponent extends React.Component {
         });
     }
 
-    onSortEnd(updatedOrder) {
-        console.log(updatedOrder);
+    onSortEnd(event, link, x, y, updatedItems) {
+        this.props.updateOrder({
+            moduleId: this.props.location.query.module,
+            linkOrder: updatedItems.map(item => item.id)
+        });
     }
 }
 
@@ -161,7 +165,8 @@ PublishModuleComponent.propTypes = {
     fetchSections: PropTypes.func,
     fetchPublished: PropTypes.func,
     fetchLinks: PropTypes.func,
-    location: PropTypes.object
+    location: PropTypes.object,
+    updateOrder: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
@@ -186,6 +191,10 @@ const mapDispatchToProps = (dispatch) => {
 
         fetchPublished: (courseId) => {
             dispatch(fetchModules(courseId));
+        },
+
+        updateOrder: (data) => {
+            dispatch(updateOrder(data));
         }
     };
 };
