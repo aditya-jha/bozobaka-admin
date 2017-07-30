@@ -9,13 +9,11 @@ import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
 import Snackbar from "material-ui/Snackbar";
 import CircularProgress from "material-ui/CircularProgress";
-import {Row, Col} from "react-flexbox-grid";
+import {Col, Row} from "react-flexbox-grid";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
 import DropdownDisplay from "./DropdownDisplayComponent";
-import {
-    updateModules
-} from "./../services/PublishService";
+import {updateModules} from "./../services/PublishService";
 
 export default class AddModulePopup extends React.Component {
     constructor(props) {
@@ -72,8 +70,8 @@ export default class AddModulePopup extends React.Component {
                                 onChange={this.handleNameChange.bind(this)} required/>
                         </Col>
                     </Row>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <Row>
                         <Col xs={6}>
                             <p>Section</p>
@@ -82,7 +80,7 @@ export default class AddModulePopup extends React.Component {
                         <Col xs={6}>
                             <p>L1</p>
                             <DropdownDisplay onChange={this.handleL1Change.bind(this)} value={l1Value}
-                                             menuItems={l1s.filter(l1 => l1.sectionId === this.state.sectionValue)} />
+                                             menuItems={l1s.filter(l1 => l1.sectionId === this.state.sectionValue)}/>
                         </Col>
                     </Row>
                     {this.state.requestInProgress ?

@@ -1,14 +1,13 @@
 "use strict";
 
 import React, {PropTypes} from "react";
-import {Row, Col} from "react-flexbox-grid";
+import {Col, Row} from "react-flexbox-grid";
 import SectionSelectionComponent from "./SectionSelectionComponent";
 import {
     questionUpdateL1,
     questionUpdateL2,
     questionUpdateL3,
     questionUpdateL4,
-    questionUpdateStatus,
     questionUpdateSection,
     questionUpdateSource
 } from "./../actions/QuestionActions";
@@ -16,7 +15,6 @@ import L1SelectionComponent from "./L1SelectionComponent";
 import L2SelectionComponent from "./L2SelectionComponent";
 import L3SelectionComponent from "./L3SelectionComponent";
 import L4SelectionComponent from "./L4SelectionComponent";
-import StatusSelectionComponent from "./StatusSelectionComponent";
 import SourceSelectionComponent from "./SourceSelectionComponent";
 import AddSourceComponent from "./AddSourceComponent";
 import TextField from "material-ui/TextField";
@@ -175,10 +173,10 @@ export default class AddQuestionComponent extends React.Component {
                 </Row>
                 <br/>
                 {/*<Row>*/}
-                    {/*<Col xs={12}>*/}
-                        {/*<h3>Status</h3>*/}
-                        {/*<StatusSelectionComponent actionOnUpdate={questionUpdateStatus.bind(this)} status={status}/>*/}
-                    {/*</Col>*/}
+                {/*<Col xs={12}>*/}
+                {/*<h3>Status</h3>*/}
+                {/*<StatusSelectionComponent actionOnUpdate={questionUpdateStatus.bind(this)} status={status}/>*/}
+                {/*</Col>*/}
                 {/*</Row>*/}
                 <br/><br/>
                 <ExamsAppearedComponent/>

@@ -1,7 +1,7 @@
 "use strict";
 
 import React, {PropTypes} from "react";
-import {Row, Col} from "react-flexbox-grid";
+import {Col, Row} from "react-flexbox-grid";
 import ListTableComponent from "./ListTableComponent";
 import {browserHistory} from "react-router";
 import Urls from "./../models/Urls";

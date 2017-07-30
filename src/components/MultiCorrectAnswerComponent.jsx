@@ -2,10 +2,8 @@
 
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
-import {Row, Col} from "react-flexbox-grid";
-import {
-    questionUpdateAnswer
-} from "./../actions/QuestionActions";
+import {Col, Row} from "react-flexbox-grid";
+import {questionUpdateAnswer} from "./../actions/QuestionActions";
 import Checkbox from "material-ui/Checkbox";
 
 export class MultiCorrectAnswerComponent extends React.Component {

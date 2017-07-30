@@ -3,22 +3,22 @@
 import React, {PropTypes} from "react";
 import NoAccessErrorComponent from "./NoAccessErrorComponent";
 import SectionSelectionComponent from "./SectionSelectionComponent";
-import {Row, Col} from "react-flexbox-grid";
+import {Col, Row} from "react-flexbox-grid";
 import TextField from "material-ui/TextField";
 import SourceSelectionComponent from "./SourceSelectionComponent";
-import {theoryUpdateSection} from "./../actions/TheoryActions";
-import L1SelectionComponent from "./L1SelectionComponent";
-import L2SelectionComponent from "./L2SelectionComponent";
-import L3SelectionComponent from "./L3SelectionComponent";
-import L4SelectionComponent from "./L4SelectionComponent";
 import {
     theoryUpdateL1,
     theoryUpdateL2,
     theoryUpdateL3,
     theoryUpdateL4,
-    theoryUpdateStatus,
-    theoryUpdateSource
+    theoryUpdateSection,
+    theoryUpdateSource,
+    theoryUpdateStatus
 } from "./../actions/TheoryActions";
+import L1SelectionComponent from "./L1SelectionComponent";
+import L2SelectionComponent from "./L2SelectionComponent";
+import L3SelectionComponent from "./L3SelectionComponent";
+import L4SelectionComponent from "./L4SelectionComponent";
 import StatusSelectionComponent from "./StatusSelectionComponent";
 import AddSourceComponent from "./AddSourceComponent";
 import LivePreviewComponent from "./LivePreviewComponent";

@@ -111,7 +111,7 @@ class PublishModuleComponent extends React.Component {
                                     module={selectedModule} sections={sections} l1s={l1s} courseId={courseId}/> : null}
                 {addLinkPopup ?
                     <AddLinkPopup showDialog={addLinkPopup} onDialogClose={this.handleDialogClose.bind(this)}
-                                 rankToSet={links.length} link={newLink} module={selectedModule} courseId={courseId}/> : null}
+                                  rankToSet={links.length} link={newLink} module={selectedModule} courseId={courseId}/> : null}
             </div>
         );
     }

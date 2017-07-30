@@ -6,7 +6,7 @@ import {Row, Col} from "react-flexbox-grid";
 import RaisedButton from "material-ui/RaisedButton";
 import ContentService from "./../services/ContentService";
 import Collapse, {Panel} from "rc-collapse";
-import 'style-loader!css-loader!rc-collapse/assets/index.css';
+import "style-loader!css-loader!rc-collapse/assets/index.css";
 import PanelHeader from "./PanelHeader";
 import EditSectionComponent from "./EditSectionComponent";
 import EditL1Component from "./EditL1Component";
@@ -44,7 +44,7 @@ export default class ManageCourseComponent extends React.Component {
         }
         this.setState({
             hasAccess: nextProps.loggedInUser.role === "admin"
-        })
+        });
     }
 
     componentWillMount() {
@@ -57,7 +57,7 @@ export default class ManageCourseComponent extends React.Component {
 
     render() {
         if (!this.state.hasAccess) {
-            return <NoAccessErrorComponent/>
+            return <NoAccessErrorComponent/>;
         }
 
         return (

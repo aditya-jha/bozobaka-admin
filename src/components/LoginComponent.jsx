@@ -35,19 +35,19 @@ class LoginComponent extends React.Component {
             <div className="login-container">
                 <Paper zDepth={1} rounded={false} style={paperStyle}>
                     <h1>BrownBoard</h1>
-                    <br />
+                    <br/>
                     <h2>Login</h2>
                     <form onSubmit={this.onFormSubmit.bind(this)}>
                         <TextField ref="email" type="email" hintText="Enter your email" floatingLabelText="Email"
                                    required/>
-                        <br />
+                        <br/>
                         <TextField ref="password" title="Minimum 6 characters required" pattern=".{6,}" type="password"
                                    hintText="Enter your password" floatingLabelText="Password" required/>
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         <Checkbox style={{paddingLeft: 20, textAlign: "left"}} ref="rememberMe" label="Remember Me"/>
-                        <br />
-                        {this.state.showLoader ? <CircularProgress /> :
+                        <br/>
+                        {this.state.showLoader ? <CircularProgress/> :
                             <div style={submitButtonStyle}>
                                 <RaisedButton label="Log in" primary={true} type="submit" fullWidth={true}/>
                             </div>

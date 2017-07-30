@@ -19,7 +19,7 @@ const LoaderComponent = ({isLoading}) => {
 };
 
 LoaderComponent.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired
 };
 
 export default LoaderComponent;

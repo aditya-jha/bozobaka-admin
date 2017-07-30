@@ -76,7 +76,7 @@ const ListTableComponent = ({headerColumns, tableRows, onFilterChange, usage, on
                                         value = row[col.key];
                                 }
                                 return (<TableRowColumn key={colIndex}
-                                                       style={style.tableRowColumn}>{value}</TableRowColumn>);
+                                                        style={style.tableRowColumn}>{value}</TableRowColumn>);
                             })}
                         </TableRow>
                     ))

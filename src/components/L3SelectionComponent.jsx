@@ -9,19 +9,6 @@ class L3SelectionComponent extends React.Component {
         super(props);
     }
 
-    componentWillReceiveProps(nextProps) {
-        // const {l3Id, onChange} = this.props;
-        // if (nextProps.l3s.length) {
-        //     if (!nextProps.l3Id || l3Id !== nextProps.l3Id) {
-        //         setTimeout(() => onChange(null, null, nextProps.l3s[0].id), 0);
-        //     }
-        // }
-    }
-
-    componentWillMount() {
-
-    }
-
     render() {
         const {l3Id, l3s, onChange, l2Id} = this.props;
         let menuItems = l3s.filter((l3) => (l3.l2Id === l2Id));

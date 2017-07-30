@@ -18,7 +18,7 @@ import PublishPopup from "./PublishingPopupComponent";
 import SortableListItem from "./SortablePublishContentItemComponent";
 import Reorder from "react-reorder";
 import {
-    fetchData as fetchDataRequest,
+    fetchData as fetchDataRequest
 } from "./../actions/PublishActions";
 
 class PublishContentComponent extends React.Component {

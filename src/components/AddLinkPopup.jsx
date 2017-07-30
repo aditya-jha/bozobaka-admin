@@ -9,12 +9,10 @@ import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
 import Snackbar from "material-ui/Snackbar";
 import CircularProgress from "material-ui/CircularProgress";
-import {Row, Col} from "react-flexbox-grid";
+import {Col, Row} from "react-flexbox-grid";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
-import {
-    updateLinks
-} from "./../services/PublishService";
+import {updateLinks} from "./../services/PublishService";
 
 
 export default class AddLinkPopup extends React.Component {
@@ -78,7 +76,7 @@ export default class AddLinkPopup extends React.Component {
                                 onChange={this.handleNameChange.bind(this)} required/>
                         </Col>
                     </Row>
-                    <br /><br />
+                    <br/><br/>
                     <Row>
                         <Col xs={12}>
                             <p>Module</p>
