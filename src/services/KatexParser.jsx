@@ -31,6 +31,7 @@ function initVariables() {
 
 export function parseKatex(html) {
     if (!init) {
+        init = true;
         initVariables();
     }
     let dom = he.decode(html);
