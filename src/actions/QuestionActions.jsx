@@ -222,6 +222,36 @@ export function questionUpdateAppearedIn(name, year, index) {
     };
 }
 
+export function updateQuestionInState(dispatch, res) {
+    dispatch(questionUpdateId(res.id));
+    dispatch(questionUpdateStatus(res.status));
+    dispatch(questionUpdateL4(res.l4Id));
+    dispatch(questionUpdateL3(res.l3Id));
+    dispatch(questionUpdateL2(res.l2Id));
+    dispatch(questionUpdateL1(res.l1Id));
+    dispatch(questionUpdateSection(res.sectionId));
+    dispatch(questionUpdateQuestion(res.question));
+    dispatch(questionUpdateQuestionType(res.type));
+    dispatch(questionUpdateSource(res.sourceId));
+    dispatch(questionUpdateHint(res.hint.raw, null));
+    dispatch(questionUpdateSolution(res.solution.raw, null));
+    dispatch(questionUpdateDifficulty(res.difficulty));
+
+    if (res.type === "single") {
+        dispatch(questionUpdateAnswer(res.answer.single));
+    } else {
+        res.answer.multiple.forEach((answer, index) => {
+            dispatch(questionUpdateAnswer(answer, index));
+        });
+    }
+    res.options.forEach((option, index) => {
+        dispatch(questionUpdateOption(index, option));
+    });
+    res.appearedIn.forEach((exam, index) => {
+        dispatch(questionUpdateAppearedIn(exam.name, exam.year, index));
+    });
+}
+
 export function questionFetchQuestions(questionId) {
     return (dispatch, getState) => {
         dispatch(questionIsLoading(true));
@@ -235,33 +265,7 @@ export function questionFetchQuestions(questionId) {
             if (typeof res === "object" && res.constructor === Array) {
                 dispatch(initQuestions(res));
             } else {
-                dispatch(questionUpdateId(res.id));
-                dispatch(questionUpdateStatus(res.status));
-                dispatch(questionUpdateL4(res.l4Id));
-                dispatch(questionUpdateL3(res.l3Id));
-                dispatch(questionUpdateL2(res.l2Id));
-                dispatch(questionUpdateL1(res.l1Id));
-                dispatch(questionUpdateSection(res.sectionId));
-                dispatch(questionUpdateQuestion(res.question));
-                dispatch(questionUpdateQuestionType(res.type));
-                dispatch(questionUpdateSource(res.sourceId));
-                dispatch(questionUpdateHint(res.hint.raw, null));
-                dispatch(questionUpdateSolution(res.solution.raw, null));
-                dispatch(questionUpdateDifficulty(res.difficulty));
-
-                if (res.type === "single") {
-                    dispatch(questionUpdateAnswer(res.answer.single));
-                } else {
-                    res.answer.multiple.forEach((answer, index) => {
-                        dispatch(questionUpdateAnswer(answer, index));
-                    });
-                }
-                res.options.forEach((option, index) => {
-                    dispatch(questionUpdateOption(index, option));
-                });
-                res.appearedIn.forEach((exam, index) => {
-                    dispatch(questionUpdateAppearedIn(exam.name, exam.year, index));
-                });
+                updateQuestionInState(dispatch, res);
             }
             dispatch(questionIsLoading(false));
             dispatch(questionRequestSuccess(true));
@@ -292,8 +296,7 @@ export function questionPostQuestion(status) {
                 method: data.id ? "patch" : "post",
                 data
             }).then((question) => {
-                console.log("question after post", question);
-                dispatch(questionUpdateId(question.id));
+                updateQuestionInState(dispatch, question);
                 dispatch(questionIsLoading(false));
                 dispatch(questionRequestSuccess(true));
             }).catch((err) => {
