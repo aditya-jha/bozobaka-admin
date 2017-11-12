@@ -213,11 +213,11 @@ export function questionRemoveAppearedIn(index) {
     };
 }
 
-export function questionUpdateAppearedIn(id, year, index) {
+export function questionUpdateAppearedIn(name, year, index) {
     return {
         type: QUESTION_UPDATE_APPEARED_IN,
         index,
-        name: id,
+        name,
         year
     };
 }
@@ -260,7 +260,7 @@ export function questionFetchQuestions(questionId) {
                     dispatch(questionUpdateOption(index, option));
                 });
                 res.appearedIn.forEach((exam, index) => {
-                    dispatch(questionUpdateAppearedIn(exam.id, exam.year, index));
+                    dispatch(questionUpdateAppearedIn(exam.name, exam.year, index));
                 });
             }
             dispatch(questionIsLoading(false));

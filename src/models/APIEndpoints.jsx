@@ -4,7 +4,7 @@
 
 "use strict";
 
-export const API_BASE = "http://52.3.133.9:3000/api";
+export const API_BASE = "http://api.brownboard.in/api";
 export const LOGIN = "/users/login";
 export const USER_PROFILE = "/profiles";
 export const ADD_USER = "/users/addUser";

@@ -39,7 +39,7 @@ export function errorHandler(reject, err) {
     switch (err.response.status) {
         case 401:
             LoginService.logout();
-            browserHistory.push("/");
+            window.location.href = "/";
             break;
         default:
             return reject(err.response.data.error);
