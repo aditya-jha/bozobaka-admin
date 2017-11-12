@@ -30,6 +30,7 @@ import SingleCorrectAnswer from "./SingleCorrectAnswerComponent";
 import MultiCorrectAnswer from "./MultiCorrectAnswerComponent";
 import ExamsAppearedComponent from "./ExamsAppearedComponent";
 import CircularProgress from "material-ui/CircularProgress";
+import OptionsHindiComponent from "./OptionsHindiComponent";
 
 export default class AddQuestionComponent extends React.Component {
     constructor(props) {
@@ -53,7 +54,8 @@ export default class AddQuestionComponent extends React.Component {
             difficulty, onDifficultyChange, l1Id, l2Id, l3Id, l4Id, sectionId, status, sourceId, id,
             postQuestion, hasErrored, errorMessage, question, updateQuestion, parsedQuestion, isLoading, questionTypes,
             questionType, onQuestionTypeChange, updateSolution, updateHint, solution, hint, resetErrorState, userRole,
-            requestSuccess, resetState
+            requestSuccess, resetState, questionHindi, updateQuestionHindi, parsedQuestionHindi, solutionHindi,
+            updateSolutionHindi, hintHindi, updateHintHindi
         } = this.props;
 
         let AnswerComponent;
@@ -117,7 +119,23 @@ export default class AddQuestionComponent extends React.Component {
                     </Col>
                 </Row>
                 <br/><br/>
+                <br/>
+                <Row>
+                    <Col xs={12} sm={6} md={7}>
+                        <h3>Question (Hindi)</h3>
+                        <EditorComponent content={questionHindi} onChange={updateQuestionHindi.bind(this)}
+                                         placeHolder="Enter Question (HINDI)"/>
+                    </Col>
+                    <Col xs={12} sm={6} md={5}>
+                        <h3>Question Preview (Hindi)</h3>
+                        <LivePreviewComponent content={parsedQuestionHindi}/>
+                    </Col>
+                </Row>
+                <br/><br/>
                 <OptionsComponent/>
+                <br/><br/>
+                <br/><br/>
+                <OptionsHindiComponent/>
                 <br/><br/>
                 <Row>
                     <Col xs={12} sm={6} md={7}>
@@ -131,6 +149,19 @@ export default class AddQuestionComponent extends React.Component {
                     </Col>
                 </Row>
                 <br/><br/>
+                <br/><br/>
+                <Row>
+                    <Col xs={12} sm={6} md={7}>
+                        <h3>Solution (Hindi)</h3>
+                        <EditorComponent content={solutionHindi.raw} onChange={updateSolutionHindi.bind(this)}
+                                         placeHolder="Enter Solution (Hindi)"/>
+                    </Col>
+                    <Col xs={12} sm={6} md={5}>
+                        <h3>Solution Preview</h3>
+                        <LivePreviewComponent content={solutionHindi.parsed}/>
+                    </Col>
+                </Row>
+                <br/><br/>
                 <Row>
                     <Col xs={12} sm={6} md={7}>
                         <h3>Hint</h3>
@@ -140,6 +171,19 @@ export default class AddQuestionComponent extends React.Component {
                     <Col xs={12} sm={6} md={5}>
                         <h3>Hint Preview</h3>
                         <LivePreviewComponent content={hint.parsed}/>
+                    </Col>
+                </Row>
+                <br/><br/>
+                <br/><br/>
+                <Row>
+                    <Col xs={12} sm={6} md={7}>
+                        <h3>Hint (Hindi)</h3>
+                        <EditorComponent content={hintHindi.raw} onChange={updateHintHindi.bind(this)}
+                                         placeHolder="Enter Hint (Hindi)"/>
+                    </Col>
+                    <Col xs={12} sm={6} md={5}>
+                        <h3>Hint Preview</h3>
+                        <LivePreviewComponent content={hintHindi.parsed}/>
                     </Col>
                 </Row>
                 <br/><br/>
@@ -251,5 +295,12 @@ AddQuestionComponent.propTypes = {
     hint: PropTypes.object,
     resetErrorState: PropTypes.func,
     userRole: PropTypes.string,
-    requestSuccess: PropTypes.bool
+    requestSuccess: PropTypes.bool,
+    questionHindi: PropTypes.string,
+    updateQuestionHindi: PropTypes.func,
+    parsedQuestionHindi: PropTypes.string,
+    updateSolutionHindi: PropTypes.func,
+    solutionHindi: PropTypes.Object,
+    hintHindi: PropTypes.object,
+    updateHintHindi: PropTypes.func
 };

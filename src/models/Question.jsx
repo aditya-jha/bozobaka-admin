@@ -16,9 +16,13 @@ export default class Question {
         this.l4Id = question.l4Id;
         this.l4 = question.l4 || {};
         this.question = question.question;
+        this.questionHindi = question.questionHindi;
         this.status = question.status;
         this.type = question.type || question.questionType;
         this.options = question.options.map((option) => ({
+            raw: option.raw || option
+        }));
+        this.optionsHindi = question.optionsHindi.map(option => ({
             raw: option.raw || option
         }));
         this.answer = question.answer;
@@ -26,8 +30,14 @@ export default class Question {
         this.solution = {
             raw: question.solution.raw || question.solution
         };
+        this.solutionHindi = {
+            raw: question.solutionHindi.raw || question.solutionHindi
+        };
         this.hint = {
             raw: question.hint.raw || question.hint
+        };
+        this.hintHindi = {
+            raw: question.hintHindi.raw || question.hintHindi
         };
         this.difficulty = question.difficulty;
         this.sourceId = question.sourceId;
@@ -50,8 +60,11 @@ export default class Question {
     static validateQuestion(question) {
         let validatedQuestion = new Question(question);
         validatedQuestion.solution = validatedQuestion.solution.raw;
+        validatedQuestion.solutionHindi = validatedQuestion.solutionHindi.raw;
         validatedQuestion.hint = validatedQuestion.hint.raw;
+        validatedQuestion.hintHindi = validatedQuestion.hintHindi.raw;
         validatedQuestion.options = validatedQuestion.options.map((option) => (option.raw));
+        validatedQuestion.optionsHindi = validatedQuestion.optionsHindi.map((option) => (option.raw));
         validatedQuestion.appearedInExams = validatedQuestion.appearedIn;
         delete validatedQuestion.source;
         delete validatedQuestion.appearedIn;

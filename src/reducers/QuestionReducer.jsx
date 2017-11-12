@@ -26,7 +26,14 @@ import {
     QUESTION_UPDATE_ANSWER,
     QUESTION_UPDATE_APPEARED_IN,
     QUESTION_REMOVE_APPREAD_IN,
-    QUESTION_ADD_APPEARED_IN
+    QUESTION_ADD_APPEARED_IN,
+    QUESTION_UPDATE_HINT_HINDI,
+    QUESTION_UPDATE_OPTION_HINDI,
+    QUESTION_UPDATE_PARSED_QUESTION_HINDI,
+    QUESTION_ADD_OPTION_HINDI,
+    QUESTION_REMOVE_OPTION_HINDI,
+    QUESTION_UPDATE_QUESTION_HINDI,
+    QUESTION_UPDATE_SOLUTION_HINDI
 } from "./../actions/ActionConstants";
 
 const defaultOption = {
@@ -49,10 +56,21 @@ let defaultState = {
     difficulty: 50,
     status: "draft",
     question: "",
+    questionHindi: "",
     parsedQuestion: "",
+    parsedQuestionHindi: "",
     questions: [],
     options: [defaultOption, defaultOption, defaultOption, defaultOption, defaultOption],
+    optionsHindi: [defaultOption, defaultOption, defaultOption, defaultOption, defaultOption],
     solution: {
+        raw: "",
+        parsed: null
+    },
+    solutionHindi: {
+        raw: "",
+        parsed: null
+    },
+    hintHindi: {
         raw: "",
         parsed: null
     },
@@ -157,6 +175,11 @@ export function QuestionReducer(state = defaultState, action) {
                 ...state,
                 parsedQuestion: action.parsedQuestion
             };
+        case QUESTION_UPDATE_PARSED_QUESTION_HINDI:
+            return {
+                ...state,
+                parsedQuestionHindi: action.parsedQuestionHindi
+            };
         case INIT_QUESTIONS:
             return {
                 ...state,
@@ -172,6 +195,11 @@ export function QuestionReducer(state = defaultState, action) {
                 ...state,
                 question: action.question
             };
+        case QUESTION_UPDATE_QUESTION_HINDI:
+            return {
+                ...state,
+                questionHindi: action.questionHindi
+            };
         case QUESTION_RESET_STATE:
             return defaultState;
         case QUESTION_ADD_OPTION:
@@ -182,7 +210,25 @@ export function QuestionReducer(state = defaultState, action) {
                     defaultOption
                 ]
             };
+        case QUESTION_ADD_OPTION_HINDI:
+            return {
+                ...state,
+                options: [
+                    ...state.options,
+                    defaultOption
+                ]
+            };
         case QUESTION_UPDATE_OPTION: {
+            return {
+                ...state,
+                options: [
+                    ...state.options.slice(0, action.index),
+                    action.option,
+                    ...state.options.slice(action.index + 1)
+                ]
+            };
+        }
+        case QUESTION_UPDATE_OPTION_HINDI: {
             return {
                 ...state,
                 options: [
@@ -201,6 +247,15 @@ export function QuestionReducer(state = defaultState, action) {
                 ]
             };
         }
+        case QUESTION_REMOVE_OPTION_HINDI: {
+            return {
+                ...state,
+                options: [
+                    ...state.options.slice(0, action.index),
+                    ...state.options.slice(action.index + 1)
+                ]
+            };
+        }
         case QUESTION_UPDATE_SOLUTION:
             return {
                 ...state,
@@ -209,10 +264,26 @@ export function QuestionReducer(state = defaultState, action) {
                     parsed: action.parsedSolution
                 }
             };
+        case QUESTION_UPDATE_SOLUTION_HINDI:
+            return {
+                ...state,
+                solutionHindi: {
+                    raw: action.solution,
+                    parsed: action.parsedSolution
+                }
+            };
         case QUESTION_UPDATE_HINT:
             return {
                 ...state,
                 hint: {
+                    raw: action.hint,
+                    parsed: action.parsedHint
+                }
+            };
+        case QUESTION_UPDATE_HINT_HINDI:
+            return {
+                ...state,
+                hintHindi: {
                     raw: action.hint,
                     parsed: action.parsedHint
                 }

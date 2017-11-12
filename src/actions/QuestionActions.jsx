@@ -26,7 +26,14 @@ import {
     QUESTION_UPDATE_ANSWER,
     QUESTION_ADD_APPEARED_IN,
     QUESTION_REMOVE_APPREAD_IN,
-    QUESTION_UPDATE_APPEARED_IN
+    QUESTION_UPDATE_APPEARED_IN,
+    QUESTION_UPDATE_HINT_HINDI,
+    QUESTION_UPDATE_SOLUTION_HINDI,
+    QUESTION_REMOVE_OPTION_HINDI,
+    QUESTION_UPDATE_OPTION_HINDI,
+    QUESTION_ADD_OPTION_HINDI,
+    QUESTION_UPDATE_PARSED_QUESTION_HINDI,
+    QUESTION_UPDATE_QUESTION_HINDI
 } from "./../actions/ActionConstants";
 import {
     fetchQuestion as fetchQuestionRequest,
@@ -127,6 +134,13 @@ export function questionUpdateParsedQuestion(parsedQuestion) {
     };
 }
 
+export function questionUpdateParsedQuestionHindi(parsedQuestionHindi) {
+    return {
+        type: QUESTION_UPDATE_PARSED_QUESTION_HINDI,
+        parsedQuestionHindi
+    };
+}
+
 export function initQuestions(questions) {
     return {
         type: INIT_QUESTIONS,
@@ -154,15 +168,36 @@ export function questionUpdateQuestion(question) {
     };
 }
 
+export function questionUpdateQuestionHindi(questionHindi) {
+    return {
+        type: QUESTION_UPDATE_QUESTION_HINDI,
+        questionHindi
+    };
+}
+
 export function questionAddOption() {
     return {
         type: QUESTION_ADD_OPTION
     };
 }
 
+export function questionAddOptionHindi() {
+    return {
+        type: QUESTION_ADD_OPTION_HINDI
+    };
+}
+
 export function questionUpdateOption(index, option) {
     return {
         type: QUESTION_UPDATE_OPTION,
+        index,
+        option
+    };
+}
+
+export function questionUpdateOptionHindi(index, option) {
+    return {
+        type: QUESTION_UPDATE_OPTION_HINDI,
         index,
         option
     };
@@ -175,6 +210,13 @@ export function questionRemoveOption(index) {
     };
 }
 
+export function questionRemoveOptionHindi(index) {
+    return {
+        type: QUESTION_REMOVE_OPTION_HINDI,
+        index
+    };
+}
+
 export function questionUpdateSolution(solution, parsedSolution) {
     return {
         type: QUESTION_UPDATE_SOLUTION,
@@ -183,9 +225,25 @@ export function questionUpdateSolution(solution, parsedSolution) {
     };
 }
 
+export function questionUpdateSolutionHindi(solution, parsedSolution) {
+    return {
+        type: QUESTION_UPDATE_SOLUTION_HINDI,
+        solution,
+        parsedSolution
+    };
+}
+
 export function questionUpdateHint(hint, parsedHint) {
     return {
         type: QUESTION_UPDATE_HINT,
+        hint,
+        parsedHint
+    };
+}
+
+export function questionUpdateHintHindi(hint, parsedHint) {
+    return {
+        type: QUESTION_UPDATE_HINT_HINDI,
         hint,
         parsedHint
     };
@@ -236,6 +294,10 @@ export function updateQuestionInState(dispatch, res) {
     dispatch(questionUpdateHint(res.hint.raw, null));
     dispatch(questionUpdateSolution(res.solution.raw, null));
     dispatch(questionUpdateDifficulty(res.difficulty));
+    dispatch(questionUpdateSolutionHindi(res.solutionHindi));
+    dispatch(questionUpdateHintHindi(res.hintHindi));
+    dispatch(questionUpdateOptionHindi(res.optionsHindi));
+    dispatch(questionUpdateQuestionHindi(res.questionHindi));
 
     if (res.type === "single") {
         dispatch(questionUpdateAnswer(res.answer.single));

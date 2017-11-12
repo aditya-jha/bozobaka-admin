@@ -13,7 +13,11 @@ import {
     questionUpdateQuestionType,
     questionUpdateSolution,
     questionUpdateHint,
-    questionHasErrored
+    questionHasErrored,
+    questionUpdateParsedQuestionHindi,
+    questionUpdateQuestionHindi,
+    questionUpdateSolutionHindi,
+    questionUpdateHintHindi
 } from "./../actions/QuestionActions";
 import {parseKatex} from "./../services/KatexParser";
 
@@ -46,6 +50,14 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(questionUpdateQuestion(newValue));
         },
 
+        updateQuestionHindi: (newValue) => {
+            setTimeout(() => {
+                let parsedHtml = parseKatex(newValue);
+                dispatch(questionUpdateParsedQuestionHindi(parsedHtml));
+            }, 0);
+            dispatch(questionUpdateQuestionHindi(newValue));
+        },
+
         resetState: () => {
             dispatch(questionResetState());
         },
@@ -66,8 +78,16 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(questionUpdateSolution(newValue, parseKatex(newValue)));
         },
 
+        updateSolutionHindi: (newValue) => {
+            dispatch(questionUpdateSolutionHindi(newValue, parseKatex(newValue)));
+        },
+
         updateHint: (newValue) => {
             dispatch(questionUpdateHint(newValue, parseKatex(newValue)));
+        },
+
+        updateHintHindi: (newValue) => {
+            dispatch(questionUpdateHintHindi(newValue, parseKatex(newValue)));
         },
 
         resetErrorState: () => {
