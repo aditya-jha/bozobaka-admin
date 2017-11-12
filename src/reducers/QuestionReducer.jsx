@@ -51,7 +51,7 @@ let defaultState = {
     question: "",
     parsedQuestion: "",
     questions: [],
-    options: [defaultOption, defaultOption, defaultOption, defaultOption],
+    options: [defaultOption, defaultOption, defaultOption, defaultOption, defaultOption],
     solution: {
         raw: "",
         parsed: null
@@ -239,7 +239,7 @@ export function QuestionReducer(state = defaultState, action) {
 
         case QUESTION_UPDATE_APPEARED_IN:
             const updatedExam = {};
-            if (action.id !== null) {
+            if (action.name !== null) {
                 updatedExam.name = action.name;
             } else {
                 updatedExam.name = state.appearedIn[action.index].name;

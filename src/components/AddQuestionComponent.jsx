@@ -52,7 +52,8 @@ export default class AddQuestionComponent extends React.Component {
         const {
             difficulty, onDifficultyChange, l1Id, l2Id, l3Id, l4Id, sectionId, status, sourceId, id,
             postQuestion, hasErrored, errorMessage, question, updateQuestion, parsedQuestion, isLoading, questionTypes,
-            questionType, onQuestionTypeChange, updateSolution, updateHint, solution, hint, resetErrorState, userRole
+            questionType, onQuestionTypeChange, updateSolution, updateHint, solution, hint, resetErrorState, userRole,
+            requestSuccess, resetState
         } = this.props;
 
         let AnswerComponent;
@@ -213,6 +214,8 @@ export default class AddQuestionComponent extends React.Component {
                 <br/><br/><br/>
                 <Snackbar open={hasErrored} message={errorMessage} autoHideDuration={200000} action="ok"
                           onActionTouchTap={resetErrorState.bind(this)}/>
+                <Snackbar open={requestSuccess} message="done" autoHideDuration={200000} action="ok"
+                          onActionTouchTap={resetState.bind(this)}/>
             </div>
         );
     }
@@ -247,5 +250,6 @@ AddQuestionComponent.propTypes = {
     solution: PropTypes.object,
     hint: PropTypes.object,
     resetErrorState: PropTypes.func,
-    userRole: PropTypes.string
+    userRole: PropTypes.string,
+    requestSuccess: PropTypes.bool
 };

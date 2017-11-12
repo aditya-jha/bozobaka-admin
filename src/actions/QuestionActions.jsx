@@ -268,7 +268,7 @@ export function questionFetchQuestions(questionId) {
                 updateQuestionInState(dispatch, res);
             }
             dispatch(questionIsLoading(false));
-            dispatch(questionRequestSuccess(true));
+            // dispatch(questionRequestSuccess(true));
         }).catch((err) => {
             dispatch(questionIsLoading(false));
             dispatch(questionRequestSuccess(false));
