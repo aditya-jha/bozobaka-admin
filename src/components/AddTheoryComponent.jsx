@@ -62,7 +62,8 @@ export default class AddTheoryComponent extends React.Component {
 
         const {
             updateHeading, theory, updateTheory, l1Id, l2Id, l3Id, l4Id, sectionId, status, parsedTheory, heading,
-            resetState, postTheory, hasErrored, errorMessage, isLoading, id, sourceId, resetErrorState, requestSuccess
+            resetState, postTheory, hasErrored, errorMessage, isLoading, id, sourceId, resetErrorState, requestSuccess,
+            updateTheoryHindi, updateHeadingHindi, headingHindi, theoryHindi, parsedTheoryHindi
         } = this.props;
 
         return (
@@ -112,6 +113,14 @@ export default class AddTheoryComponent extends React.Component {
                 </Row>
                 <br/>
                 <Row>
+                    <Col xs={12}>
+                        <h3>Heading (Hindi)</h3>
+                        <TextField title="Heading" type="text" hintText="Enter Heading (hindi)" fullWidth={true}
+                                   multiLine={true} onChange={updateHeadingHindi.bind(this)} value={headingHindi}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row>
                     <Col xs={12} sm={6} md={7}>
                         <h3>Theory</h3>
                         <EditorComponent content={theory} onChange={updateTheory.bind(this)}
@@ -120,6 +129,18 @@ export default class AddTheoryComponent extends React.Component {
                     <Col xs={12} sm={6} md={5}>
                         <h3>Theory Preview</h3>
                         <LivePreviewComponent content={parsedTheory}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row>
+                    <Col xs={12} sm={6} md={7}>
+                        <h3>Theory</h3>
+                        <EditorComponent content={theoryHindi} onChange={updateTheoryHindi.bind(this)}
+                                         placeHolder="Enter Theory (Hindi)"/>
+                    </Col>
+                    <Col xs={12} sm={6} md={5}>
+                        <h3>Theory Preview</h3>
+                        <LivePreviewComponent content={parsedTheoryHindi}/>
                     </Col>
                 </Row>
                 <br/><br/>
@@ -192,6 +213,7 @@ AddTheoryComponent.propTypes = {
     l3Id: PropTypes.string,
     l4Id: PropTypes.string,
     parsedTheory: PropTypes.node,
+    parsedTheoryHindi: PropTypes.node,
     theory: PropTypes.string,
     updateQuestion: PropTypes.func,
     sourceId: PropTypes.string,
@@ -205,5 +227,9 @@ AddTheoryComponent.propTypes = {
     fetchTheory: PropTypes.func,
     hasAccess: PropTypes.bool,
     resetErrorState: PropTypes.func,
-    requestSuccess: PropTypes.bool
+    requestSuccess: PropTypes.bool,
+    updateHeadingHindi: PropTypes.func,
+    updateTheoryHindi: PropTypes.func,
+    headingHindi: PropTypes.string,
+    theoryHindi: PropTypes.string
 };

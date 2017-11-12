@@ -17,7 +17,10 @@ import {
     INIT_THEORIES,
     THEORY_RESET_STATE,
     THEORY_UPDATE_ID,
-    THEORY_UPDATE_RANK
+    THEORY_UPDATE_RANK,
+    THEORY_UPDATE_HEADING_HINDI,
+    THEORY_UPDATE_THEORY_HINDI,
+    THEORY_UPDATE_PARSED_THEORY_HINDI
 } from "./../actions/ActionConstants";
 
 let defaultTheory = {
@@ -29,8 +32,11 @@ let defaultTheory = {
     sourceId: "",
     type: "text",
     heading: "",
+    headingHindi: "",
     theory: "",
+    theoryHindi: "",
     parsedTheory: "",
+    parsedTheoryHindi: "",
     status: "draft",
     theories: [],
     l1Id: "",
@@ -98,6 +104,16 @@ export function TheoryReducer(state = defaultTheory, action) {
                 ...state,
                 theory: action.theory
             };
+        case THEORY_UPDATE_HEADING_HINDI:
+            return {
+                ...state,
+                headingHindi: action.headingHindi
+            };
+        case THEORY_UPDATE_THEORY_HINDI:
+            return {
+                ...state,
+                theoryHindi: action.theoryHindi
+            };
         case THEORY_UPDATE_STATUS:
             return {
                 ...state,
@@ -107,6 +123,11 @@ export function TheoryReducer(state = defaultTheory, action) {
             return {
                 ...state,
                 parsedTheory: action.parsedTheory
+            };
+        case THEORY_UPDATE_PARSED_THEORY_HINDI:
+            return {
+                ...state,
+                parsedTheoryHindi: action.parsedTheoryHindi
             };
         case INIT_THEORIES:
             return {

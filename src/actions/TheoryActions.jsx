@@ -16,7 +16,10 @@ import {
     THEORY_UPDATE_PARSED_THEORY,
     INIT_THEORIES,
     THEORY_RESET_STATE,
-    THEORY_UPDATE_ID
+    THEORY_UPDATE_ID,
+    THEORY_UPDATE_THEORY_HINDI,
+    THEORY_UPDATE_HEADING_HINDI,
+    THEORY_UPDATE_PARSED_THEORY_HINDI
 } from "./ActionConstants";
 import {
     updateTheory as updateTheoryRequest,
@@ -117,6 +120,13 @@ export function theoryUpdateParsedTheory(parsedTheory) {
     };
 }
 
+export function theoryUpdateParsedTheoryHindi(parsedTheoryHindi) {
+    return {
+        type: THEORY_UPDATE_PARSED_THEORY_HINDI,
+        parsedTheoryHindi
+    };
+}
+
 export function initTheories(theories) {
     return {
         type: INIT_THEORIES,
@@ -134,6 +144,20 @@ export function theoryId(id) {
     return {
         type: THEORY_UPDATE_ID,
         id
+    };
+}
+
+export function theoryUpdateTheoryHindi(theoryHindi) {
+    return {
+        type: THEORY_UPDATE_THEORY_HINDI,
+        theoryHindi
+    };
+}
+
+export function theoryUpdateHeadingHindi(headingHindi) {
+    return {
+        type: THEORY_UPDATE_HEADING_HINDI,
+        headingHindi
     };
 }
 
@@ -159,6 +183,8 @@ export function theoryFetchTheory(id) {
                 dispatch(theoryUpdateTheory(res.theory));
                 dispatch(theoryUpdateHeading(res.heading));
                 dispatch(theoryUpdateSource(res.sourceId));
+                dispatch(theoryUpdateTheoryHindi(res.theoryHindi));
+                dispatch(theoryUpdateHeadingHindi(res.headingHindi));
             }
             dispatch(theoryIsLoading(false));
             //dispatch(theoryRequestSuccess(true));

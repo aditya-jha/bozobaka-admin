@@ -9,7 +9,10 @@ import {
     theoryResetState,
     theoryPostTheory,
     theoryFetchTheory,
-    theoryHasErrored
+    theoryHasErrored,
+    theoryUpdateHeadingHindi,
+    theoryUpdateParsedTheoryHindi,
+    theoryUpdateTheoryHindi
 } from "./../actions/TheoryActions";
 import {parseKatex} from "./../services/KatexParser";
 
@@ -30,6 +33,18 @@ const mapDispatchToProps = (dispatch) => {
     return {
         updateHeading: (event, newValue) => {
             dispatch(theoryUpdateHeading(newValue));
+        },
+
+        updateHeadingHindi: (event, newValue) => {
+            dispatch(theoryUpdateHeadingHindi(newValue));
+        },
+
+        updateTheoryHindi: (newValue) => {
+            setTimeout(() => {
+                let parsedHtml = parseKatex(newValue);
+                dispatch(theoryUpdateParsedTheoryHindi(parsedHtml));
+            }, 0);
+            dispatch(theoryUpdateTheoryHindi(newValue));
         },
 
         updateTheory: (newValue) => {

@@ -23,6 +23,8 @@ export default class Theory {
         this.sourceId = theory.sourceId;
         this.source = theory.source || {};
         this.created = theory.created ? getDateWithoutTime(theory.created) : "";
+        this.theoryHindi = theory.theoryHindi;
+        this.headingHindi = theory.headingHindi;
     }
 
     static parseTheories(theories = []) {
