@@ -92,6 +92,9 @@ export function fetchSources() {
 export function postSource() {
     return (dispatch, getState) => {
         let name = getState().sources.name;
+        if (!name || !name.length) {
+            return;
+        }
         dispatch(sourceIsLoading(true));
 
         creatNewSource(name).then((source) => {

@@ -8,6 +8,7 @@ import TextField from "material-ui/TextField";
 import {connect} from "react-redux";
 import {postSource, sourceDialogState, sourceRequestState, sourceUpdateName} from "./../actions/SourceActions";
 import CircularProgress from "material-ui/CircularProgress";
+import PropTypes from "prop-types";
 
 class AddSourceComponent extends React.Component {
     constructor(props) {
@@ -18,6 +19,12 @@ class AddSourceComponent extends React.Component {
         if (nextProps.requestSuccess) {
             nextProps.setDialogState(false);
             nextProps.setRequestState(false);
+        }
+    }
+
+    handleKeyUp(event) {
+        if (event.key === "Enter") {
+            this.props.createSource();
         }
     }
 
@@ -34,13 +41,21 @@ class AddSourceComponent extends React.Component {
                 <Dialog title="Add Source" actions={actions} modal={false} open={openDialog}
                         onRequestClose={setDialogState.bind(this)}>
                     <TextField title="Source" hintText="Add Source Name" onChange={sourceTextChange.bind(this)}
-                               fullWidth={true}/>
+                               fullWidth={true} onKeyUp={this.handleKeyUp.bind(this)}/>
                     {isLoading ? <CircularProgress/> : null}
                 </Dialog>
             </div>
         );
     }
 }
+
+AddSourceComponent.propTypes = {
+    createSource: PropTypes.func,
+    sourceTextChange: PropTypes.func,
+    setDialogState: PropTypes.func,
+    openDialog: PropTypes.bool,
+    isLoading: PropTypes.bool
+};
 
 const mapStateToProps = (state) => {
     return {
