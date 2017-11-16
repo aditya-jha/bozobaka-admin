@@ -300,7 +300,7 @@ AddQuestionComponent.propTypes = {
     updateQuestionHindi: PropTypes.func,
     parsedQuestionHindi: PropTypes.string,
     updateSolutionHindi: PropTypes.func,
-    solutionHindi: PropTypes.Object,
+    solutionHindi: PropTypes.string,
     hintHindi: PropTypes.object,
     updateHintHindi: PropTypes.func
 };

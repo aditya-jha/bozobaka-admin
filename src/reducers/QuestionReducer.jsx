@@ -231,10 +231,10 @@ export function QuestionReducer(state = defaultState, action) {
         case QUESTION_UPDATE_OPTION_HINDI: {
             return {
                 ...state,
-                options: [
-                    ...state.options.slice(0, action.index),
+                optionsHindi: [
+                    ...state.optionsHindi.slice(0, action.index),
                     action.option,
-                    ...state.options.slice(action.index + 1)
+                    ...state.optionsHindi.slice(action.index + 1)
                 ]
             };
         }
@@ -250,9 +250,9 @@ export function QuestionReducer(state = defaultState, action) {
         case QUESTION_REMOVE_OPTION_HINDI: {
             return {
                 ...state,
-                options: [
-                    ...state.options.slice(0, action.index),
-                    ...state.options.slice(action.index + 1)
+                optionsHindi: [
+                    ...state.optionsHindi.slice(0, action.index),
+                    ...state.optionsHindi.slice(action.index + 1)
                 ]
             };
         }

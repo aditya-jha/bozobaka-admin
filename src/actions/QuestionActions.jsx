@@ -294,9 +294,8 @@ export function updateQuestionInState(dispatch, res) {
     dispatch(questionUpdateHint(res.hint.raw, null));
     dispatch(questionUpdateSolution(res.solution.raw, null));
     dispatch(questionUpdateDifficulty(res.difficulty));
-    dispatch(questionUpdateSolutionHindi(res.solutionHindi));
-    dispatch(questionUpdateHintHindi(res.hintHindi));
-    dispatch(questionUpdateOptionHindi(res.optionsHindi));
+    dispatch(questionUpdateSolutionHindi(res.solutionHindi.raw));
+    dispatch(questionUpdateHintHindi(res.hintHindi.raw));
     dispatch(questionUpdateQuestionHindi(res.questionHindi));
 
     if (res.type === "single") {
@@ -308,6 +307,9 @@ export function updateQuestionInState(dispatch, res) {
     }
     res.options.forEach((option, index) => {
         dispatch(questionUpdateOption(index, option));
+    });
+    res.optionsHindi.forEach((option, index) => {
+        dispatch(questionUpdateOptionHindi(index, option));
     });
     res.appearedIn.forEach((exam, index) => {
         dispatch(questionUpdateAppearedIn(exam.name, exam.year, index));
