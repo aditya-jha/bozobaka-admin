@@ -20,27 +20,29 @@ class PublishingPopupComponent extends React.Component {
     constructor(props) {
         super(props);
         this.publishedItems = {};
-        this.headerColumns = [{
-            displayName: "Question",
-            key: "question"
-        }, {
-            displayName: "Type",
-            key: "contentType"
-        }, {
-            displayName: "Section",
-            key: "sectionId"
-        }, {
-            displayName: "L1",
-            key: "l1Id"
-        }, {
-            displayName: "L2",
-            key: "l2Id"
-        }, {
-            displayName: "Action",
-            key: "action",
-            actionLabel: "Publish"
-        }];
         this.selectedItem = {};
+        this.headerColumns = [
+            {
+                displayName: "Question",
+                key: "question"
+            }, {
+                displayName: "Type",
+                key: "contentType"
+            }, {
+                displayName: "Section",
+                key: "sectionId"
+            }, {
+                displayName: "L1",
+                key: "l1Id"
+            }, {
+                displayName: "L2",
+                key: "l2Id"
+            }, {
+                displayName: "Action",
+                key: "action",
+                actionLabel: "Publish"
+            }
+        ];
         this.state = {
             openDialog: props.publishDialog
         };
@@ -52,13 +54,6 @@ class PublishingPopupComponent extends React.Component {
             fetchData();
         }
         if (contentType !== nextProps.contentType) {
-            if (contentType === "question") {
-                this.headerColumns[0].displayName = "Question";
-                this.headerColumns[0].key = "question";
-            } else {
-                this.headerColumns[0].displayName = "theory";
-                this.headerColumns[0].key = "theory";
-            }
             fetchData();
         }
     }
@@ -75,6 +70,14 @@ class PublishingPopupComponent extends React.Component {
         const {openDialog} = this.state;
         let tableRows = contentType === "question" ? questions : theories;
         tableRows = tableRows.filter(row => !this.publishedItems[row.id]);
+
+        if (contentType === "question") {
+            this.headerColumns[0].displayName = "Question";
+            this.headerColumns[0].key = "question";
+        } else {
+            this.headerColumns[0].displayName = "theory";
+            this.headerColumns[0].key = "theory";
+        }
 
         const actions = (
             <Row>

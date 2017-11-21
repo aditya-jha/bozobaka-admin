@@ -22,22 +22,28 @@ export default class Question {
         this.options = question.options.map((option) => ({
             raw: option.raw || option
         }));
-        this.optionsHindi = question.optionsHindi.map(option => ({
-            raw: option.raw || option
-        }));
+
+        if (question.optionsHindi) {
+            this.optionsHindi = question.optionsHindi.map(option => ({
+                raw: option.raw || option
+            }));
+        } else {
+            this.optionsHindi = [];
+        }
+
         this.answer = question.answer;
         this.appearedIn = question.appearedInExams || question.appearedIn;
         this.solution = {
             raw: question.solution.raw || question.solution
         };
         this.solutionHindi = {
-            raw: question.solutionHindi.raw || question.solutionHindi
+            raw: question.solutionHindi ? (question.solutionHindi.raw || question.solutionHindi) : question.solutionHindi
         };
         this.hint = {
             raw: question.hint.raw || question.hint
         };
         this.hintHindi = {
-            raw: question.hintHindi.raw || question.hintHindi
+            raw: question.hintHindi ? (question.hintHindi.raw || question.hintHindi) : question.hintHindi
         };
         this.difficulty = question.difficulty;
         this.sourceId = question.sourceId;
