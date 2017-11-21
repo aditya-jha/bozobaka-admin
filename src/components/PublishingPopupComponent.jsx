@@ -69,7 +69,7 @@ class PublishingPopupComponent extends React.Component {
         const {questions, theories, isLoading, contentType, fetchData} = this.props;
         const {openDialog} = this.state;
         let tableRows = contentType === "question" ? questions : theories;
-        tableRows = tableRows.filter(row => !this.publishedItems[row.id]);
+        // tableRows = tableRows.filter(row => !this.publishedItems[row.id]);
 
         if (contentType === "question") {
             this.headerColumns[0].displayName = "Question";
