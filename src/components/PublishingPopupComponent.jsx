@@ -120,7 +120,7 @@ class PublishingPopupComponent extends React.Component {
         this.selectedItem = contentType === "question" ? questions[index] : theories[index];
 
         function getDescription(item) {
-            return item.id + " | " + item.question.substr(0, 20) + " | " + item.section.name + " | " + item.l1.name
+            return item.id + " | " + item[contentType].substr(0, 20) + " | " + item.section.name + " | " + item.l1.name
                 + " | " + item.l2.name + " | " + item.l3.name + " | " + item.l4.name;
         }
 
