@@ -261,7 +261,7 @@ export function QuestionReducer(state = defaultState, action) {
                 ...state,
                 solution: {
                     raw: action.solution,
-                    parsed: action.parsedSolution
+                    parsed: action.parsedSolution || ""
                 }
             };
         case QUESTION_UPDATE_SOLUTION_HINDI:
@@ -269,7 +269,7 @@ export function QuestionReducer(state = defaultState, action) {
                 ...state,
                 solutionHindi: {
                     raw: action.solution,
-                    parsed: action.parsedSolution
+                    parsed: action.parsedSolution || ""
                 }
             };
         case QUESTION_UPDATE_HINT:
@@ -277,7 +277,7 @@ export function QuestionReducer(state = defaultState, action) {
                 ...state,
                 hint: {
                     raw: action.hint,
-                    parsed: action.parsedHint
+                    parsed: action.parsedHint || ""
                 }
             };
         case QUESTION_UPDATE_HINT_HINDI:
@@ -285,7 +285,7 @@ export function QuestionReducer(state = defaultState, action) {
                 ...state,
                 hintHindi: {
                     raw: action.hint,
-                    parsed: action.parsedHint
+                    parsed: action.parsedHint || ""
                 }
             };
         case QUESTION_UPDATE_ANSWER:

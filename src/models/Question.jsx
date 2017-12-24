@@ -20,12 +20,12 @@ export default class Question {
         this.status = question.status;
         this.type = question.type || question.questionType;
         this.options = question.options.map((option) => ({
-            raw: option.raw || option
+            raw: typeof option.raw !== "undefined" ? option.raw : option
         }));
 
         if (question.optionsHindi) {
             this.optionsHindi = question.optionsHindi.map(option => ({
-                raw: option.raw || option
+                raw: typeof option.raw !== "undefined" ? option.raw : option
             }));
         } else {
             this.optionsHindi = [];
@@ -34,17 +34,18 @@ export default class Question {
         this.answer = question.answer;
         this.appearedIn = question.appearedInExams || question.appearedIn;
         this.solution = {
-            raw: question.solution.raw || question.solution
+            raw: typeof question.solution.raw !== "undefined" ? question.solution.raw : question.solution
         };
         this.solutionHindi = {
-            raw: question.solutionHindi ? (question.solutionHindi.raw || question.solutionHindi) : question.solutionHindi
+            raw: typeof question.solutionHindi.raw !== "undefined" ? question.solutionHindi.raw : question.solutionHindi
         };
         this.hint = {
-            raw: question.hint.raw || question.hint
+            raw: typeof question.hint.raw !== "undefined" ? question.hint.raw : question.hint
         };
         this.hintHindi = {
-            raw: question.hintHindi ? (question.hintHindi.raw || question.hintHindi) : question.hintHindi
+            raw: typeof question.hintHindi.raw !== "undefined" ? question.hintHindi.raw : question.hintHindi
         };
+
         this.difficulty = question.difficulty;
         this.sourceId = question.sourceId;
         this.rank = question.rank;
@@ -82,7 +83,7 @@ export default class Question {
         delete validatedQuestion.created;
         delete validatedQuestion.updated;
         if (!validatedQuestion.sectionId || !validatedQuestion.l1Id || !validatedQuestion.l2Id ||
-            !validatedQuestion.l3Id || !validatedQuestion.question) {
+            !validatedQuestion.l3Id || !validatedQuestion.question || !validatedQuestion.questionHindi) {
             throw new Error("Invalid Question Input");
         }
         return validatedQuestion;
