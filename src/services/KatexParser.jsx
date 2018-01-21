@@ -13,7 +13,7 @@ function initVariables() {
     processingInstructions = [
         {
             replaceChildren: true,
-            shouldProcessNode: (node) => (node.attribs && node.attribs["data-katex"]),
+            shouldProcessNode: () => false,
             processNode: (node) => {
                 if (node.attribs["data-block"]) {
                     return <BlockMath>{node.attribs["data-katex"]}</BlockMath>;
