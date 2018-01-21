@@ -5,9 +5,6 @@ import React, {PropTypes} from "react";
 export default class LivePreviewComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            content: props.content
-        }
     }
 
     componentDidUpdate() {
@@ -40,13 +37,6 @@ export default class LivePreviewComponent extends React.Component {
         );
     }
 }
-// const LivePreviewComponent = ({content}) => {
-//     return (
-//         <div>
-//             {content}
-//         </div>
-//     );
-// };
 
 LivePreviewComponent.propTypes = {
     content: PropTypes.node
