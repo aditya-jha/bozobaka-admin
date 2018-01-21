@@ -3,65 +3,65 @@
 import React, {PropTypes} from "react";
 import ReactQuill from "react-quill";
 
-class EditorComponent extends React.Component {
-    static propTypes = {
-        content: PropTypes.string,
-        placeHolder: PropTypes.string,
-        onChange: PropTypes.func.isRequired,
-    };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: props.content
-        };
-    }
-
-    onKeyUpHandler(event) {
-        this.props.onChange(event.target.value);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            value: nextProps.content
-        });
-        if (nextProps.content && nextProps.content !== this.props.content) {
-            this.props.onChange(nextProps.content);
-        }
-    }
-
-    render() {
-        const { placeHolder } = this.props;
-        const style = {
-            width: "90%",
-            height: "150px"
-        };
-
-        return (
-            <textarea
-                style={style}
-                onChange={this.onKeyUpHandler.bind(this)}
-                placeholder={placeHolder}
-                value={this.state.value}>
-            </textarea>
-        );
-    }
-}
-// const EditorComponent = ({content, placeHolder, onChange, theme, modules}) => {
-//     theme = theme || "snow";
-//     const editorModule = modules ? EditorComponent[modules] : EditorComponent.defaultModules;
-//     return (
-//         <ReactQuill
-//             value={content}
-//             theme={theme}
-//             onChange={onChange.bind(this)}
-//             modules={editorModule}
-//             formats={EditorComponent.formats}
-//             placeholder={placeHolder}
-//         />
-//     );
+// class EditorComponent extends React.Component {
+//     static propTypes = {
+//         content: PropTypes.string,
+//         placeHolder: PropTypes.string,
+//         onChange: PropTypes.func.isRequired,
+//     };
 //
-// };
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             value: props.content
+//         };
+//     }
+//
+//     onKeyUpHandler(event) {
+//         this.props.onChange(event.target.value);
+//     }
+//
+//     componentWillReceiveProps(nextProps) {
+//         this.setState({
+//             value: nextProps.content
+//         });
+//         if (nextProps.content && nextProps.content !== this.props.content) {
+//             this.props.onChange(nextProps.content);
+//         }
+//     }
+//
+//     render() {
+//         const { placeHolder } = this.props;
+//         const style = {
+//             width: "90%",
+//             height: "150px"
+//         };
+//
+//         return (
+//             <textarea
+//                 style={style}
+//                 onChange={this.onKeyUpHandler.bind(this)}
+//                 placeholder={placeHolder}
+//                 value={this.state.value}>
+//             </textarea>
+//         );
+//     }
+// }
+const EditorComponent = ({content, placeHolder, onChange, theme, modules}) => {
+    theme = theme || "snow";
+    const editorModule = modules ? EditorComponent[modules] : EditorComponent.defaultModules;
+    return (
+        <ReactQuill
+            value={content}
+            theme={theme}
+            onChange={onChange.bind(this)}
+            modules={editorModule}
+            formats={EditorComponent.formats}
+            placeholder={placeHolder}
+        />
+    );
+
+};
 
 /*
  * Quill modules to attach to editor
